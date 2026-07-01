@@ -1,15 +1,27 @@
-import image_Asset_1_6 from "@/imports/Asset_1.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { ArrowLeft, Trophy, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, Trophy, CheckCircle, XCircle, BadgeHelp } from "lucide-react";
 import { toast } from "sonner";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import PremiumBackground from "../PremiumBackground";
 import {
   submitQuizScore,
   getTodayQuizStatus,
   fetchTodayQuizQuestions,
   type QuizQuestion,
 } from "@/app/lib/auth";
+
+function ScreenBackground() {
+  return (
+    <>
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+      </div>
+      <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
+        <PremiumBackground />
+      </div>
+    </>
+  );
+}
 
 export default function QuizScreen() {
   const navigate = useNavigate();
@@ -105,34 +117,41 @@ export default function QuizScreen() {
 
   if (statusLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-[#1A1A2E]/60 text-sm">Loading...</p>
+      <div className="min-h-screen bg-[#0A0E1A] relative">
+        <ScreenBackground />
+        <div className="relative z-10 flex items-center justify-center min-h-screen flex-col gap-3">
+          <div className="w-8 h-8 border-2 border-white/20 border-t-[#A78BFA] rounded-full animate-spin" />
+          <span className="text-white/30 text-xs tracking-widest uppercase">
+            Loading quiz...
+          </span>
+        </div>
       </div>
     );
   }
 
   if (alreadyPlayed) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
-        <div className="bg-white/95 border border-black/15 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-lg backdrop-blur-sm">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-[#1E90FF] to-[#0066CC] rounded-full flex items-center justify-center">
-            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+      <div className="min-h-screen bg-[#0A0E1A] relative flex items-center justify-center p-4 sm:p-6">
+        <ScreenBackground />
+        <div className="relative z-10 bg-white/[0.06] backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 max-w-sm w-full text-center shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 rounded-2xl bg-[#FFD700]/10 border border-[#FFD700]/20 flex items-center justify-center">
+            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-[#FFD700]" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#1A1A2E] mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
             Already Played!
           </h2>
-          <p className="text-[#1A1A2E]/70 mb-4 sm:mb-6 text-sm sm:text-base">
-            Your score for today
-          </p>
-          <div className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#1E90FF] to-[#00BFFF] mb-6 sm:mb-8">
+          <p className="text-white/40 text-sm mb-6">Your score for today</p>
+          <div className="text-6xl sm:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500] mb-6">
             {todayScore}
           </div>
-          <p className="text-[#1A1A2E]/70 mb-6 sm:mb-8 text-sm sm:text-base">
-            Come back tomorrow for new questions! 🌟
-          </p>
+          <div className="flex items-center gap-1.5 justify-center bg-white/[0.05] border border-white/10 rounded-full px-4 py-2 mb-6 mx-auto w-fit">
+            <span className="text-[10px] text-white/40 tracking-widest uppercase">
+              New questions tomorrow
+            </span>
+          </div>
           <button
             onClick={() => navigate("/home")}
-            className="w-full py-3 sm:py-4 bg-gradient-to-r from-[#1E90FF] to-[#0066CC] text-white rounded-xl text-sm sm:text-base font-bold min-h-[48px]"
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#1E90FF] to-[#667eea] text-white font-black text-sm tracking-widest uppercase shadow-[0_8px_32px_rgba(30,144,255,0.35)] hover:brightness-110 active:scale-[0.98] transition-all duration-150"
           >
             Back to Home
           </button>
@@ -143,20 +162,21 @@ export default function QuizScreen() {
 
   if (noQuestions) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
-        <div className="bg-white/95 border border-black/15 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-lg backdrop-blur-sm">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-[#1E90FF] to-[#0066CC] rounded-full flex items-center justify-center">
-            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+      <div className="min-h-screen bg-[#0A0E1A] relative flex items-center justify-center p-4 sm:p-6">
+        <ScreenBackground />
+        <div className="relative z-10 bg-white/[0.06] backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 max-w-sm w-full text-center shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 rounded-2xl bg-[#A78BFA]/10 border border-[#A78BFA]/20 flex items-center justify-center">
+            <BadgeHelp className="w-8 h-8 sm:w-10 sm:h-10 text-[#A78BFA]" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#1A1A2E] mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
             No Quiz Today
           </h2>
-          <p className="text-[#1A1A2E]/70 mb-6 sm:mb-8 text-sm sm:text-base">
-            No questions have been set for today. Check back later! 🌟
+          <p className="text-white/40 text-sm mb-6">
+            No questions have been set for today. Check back later!
           </p>
           <button
             onClick={() => navigate("/home")}
-            className="w-full py-3 sm:py-4 bg-gradient-to-r from-[#1E90FF] to-[#0066CC] text-white rounded-xl text-sm sm:text-base font-bold min-h-[48px]"
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#1E90FF] to-[#667eea] text-white font-black text-sm tracking-widest uppercase shadow-[0_8px_32px_rgba(30,144,255,0.35)] hover:brightness-110 active:scale-[0.98] transition-all duration-150"
           >
             Back to Home
           </button>
@@ -167,35 +187,49 @@ export default function QuizScreen() {
 
   if (showResult) {
     return (
-      <div className="min-h-screen  flex items-center justify-center p-4 sm:p-6">
-        <div className="bg-white/95  border border-black/15 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-lg backdrop-blur-sm">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-[#1E90FF] to-[#0066CC] rounded-full flex items-center justify-center">
-            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+      <div className="min-h-screen bg-[#0A0E1A] relative flex items-center justify-center p-4 sm:p-6">
+        <ScreenBackground />
+        <div className="relative z-10 bg-white/[0.06] backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 max-w-sm w-full text-center shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 rounded-2xl bg-[#FFD700]/10 border border-[#FFD700]/20 flex items-center justify-center">
+            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-[#FFD700]" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#1A1A2E] mb-3 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
             Quiz Complete!
           </h2>
-          <p className="text-[#1A1A2E]/70 mb-4 sm:mb-6 text-sm sm:text-base">
-            Your Score
-          </p>
-          <div className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#1E90FF] to-[#00BFFF] mb-6 sm:mb-8">
+          <p className="text-white/40 text-sm mb-6">Your Score</p>
+          <div className="text-6xl sm:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500] mb-6">
             {score}
           </div>
-          <p className="text-[#1A1A2E]/80 mb-6 sm:mb-8 text-sm sm:text-base">
+          <p className="text-white/50 text-sm mb-8">
             {score >= 75
-              ? "Excellent! You're a football expert! 🏆"
+              ? "Excellent! You're a football expert!"
               : score >= 50
-                ? "Good job! Keep learning! ⚽"
-                : "Nice try! Play again to improve! 💪"}
+                ? "Good job! Keep learning!"
+                : "Nice try! Play again to improve!"}
           </p>
-          <div className="space-y-3">
-            <button
-              onClick={() => navigate("/home")}
-              className="w-full py-3 sm:py-4 bg-[#1E90FF] text-white rounded-xl text-sm sm:text-base font-bold min-h-[48px]"
-            >
-              Back to Home
-            </button>
+          <div className="flex gap-2 justify-center mb-6">
+            {[
+              { label: "Correct", value: score / 25 },
+              { label: "Questions", value: questions.length },
+              { label: "Max", value: questions.length * 25 },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="flex-1 bg-white/[0.05] border border-white/[0.07] rounded-2xl py-2 px-1 text-center"
+              >
+                <div className="text-white font-black text-lg">{stat.value}</div>
+                <div className="text-white/30 text-[9px] uppercase tracking-wide">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
+          <button
+            onClick={() => navigate("/home")}
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#1E90FF] to-[#667eea] text-white font-black text-sm tracking-widest uppercase shadow-[0_8px_32px_rgba(30,144,255,0.35)] hover:brightness-110 active:scale-[0.98] transition-all duration-150"
+          >
+            Back to Home
+          </button>
         </div>
       </div>
     );
@@ -211,45 +245,57 @@ export default function QuizScreen() {
   const isLowTime = timeLeft <= 5 && !isTimedOut && selectedAnswer === null;
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-[#0A0E1A] relative">
+      <ScreenBackground />
+
       {/* Header */}
-      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-white/95 backdrop-blur-md border-b border-black/15">
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0A0E1A]/80 backdrop-blur-md border-b border-white/[0.07]">
         <button
           onClick={() => navigate("/home")}
-          className="text-[#1A1A2E] w-11 h-11 flex items-center justify-center"
+          className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white/70 hover:text-white active:scale-95 transition-all"
         >
-          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ArrowLeft className="w-5 h-5" />
         </button>
 
-        {/* Company Logo */}
-        <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
-          <ImageWithFallback
-            src={image_Asset_1_6}
-            alt="Rolac Logo"
-            className="w-full h-full object-contain"
-          />
+        <div className="flex items-center gap-2">
+          <div className="w-1 h-4 bg-[#A78BFA] rounded-full" />
+          <span className="text-sm font-black text-white tracking-widest uppercase">
+            Trivia Quiz
+          </span>
+          <div className="w-1 h-4 bg-[#A78BFA] rounded-full" />
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 bg-[#1E90FF]/20 px-2.5 sm:px-3 py-1 rounded-full">
-          <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1E90FF]" />
-          <span className="text-[#1A1A2E] text-sm sm:text-base">{score}</span>
+        <div className="flex items-center gap-1.5 bg-[#FFD700]/10 border border-[#FFD700]/20 px-3 py-1.5 rounded-full">
+          <Trophy className="w-3.5 h-3.5 text-[#FFD700]" />
+          <span className="text-[#FFD700] text-sm font-black">{score}</span>
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl mx-auto">
-        {/* Progress */}
-        <div className="mb-5 sm:mb-6">
-          <div className="flex justify-between text-[#1A1A2E]/70 text-xs sm:text-sm mb-2">
-            <span>
-              Question {currentQuestion + 1} of {questions.length}
-            </span>
-            <span>
-              {Math.round(((currentQuestion + 1) / questions.length) * 100)}%
+      <div className="relative z-10 px-4 sm:px-6 py-5 max-w-2xl mx-auto">
+        {/* Progress — dot indicators per question */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-1.5">
+              {questions.map((_, i) => (
+                <div
+                  key={i}
+                  className={`rounded-full transition-all duration-300 ${
+                    i < currentQuestion
+                      ? "w-2 h-2 bg-[#A78BFA]"
+                      : i === currentQuestion
+                        ? "w-4 h-2 bg-[#A78BFA]"
+                        : "w-2 h-2 bg-white/[0.12]"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-white/30 text-[11px] font-bold">
+              {currentQuestion + 1}/{questions.length}
             </span>
           </div>
-          <div className="w-full h-2 bg-white/95 rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#1E90FF] to-[#0066CC]"
+              className="h-full bg-gradient-to-r from-[#A78BFA] to-[#1E90FF] rounded-full transition-all duration-500"
               style={{
                 width: `${((currentQuestion + 1) / questions.length) * 100}%`,
               }}
@@ -258,15 +304,19 @@ export default function QuizScreen() {
         </div>
 
         {/* Timer */}
-        <div className="flex flex-col items-center mb-5 sm:mb-6">
+        <div className="flex items-center justify-center gap-4 mb-3">
+          <span className="text-white/25 text-[10px] uppercase tracking-widest font-bold">
+            Time
+          </span>
           <div className={isLowTime ? "animate-pulse" : ""}>
-            <svg width="64" height="64" viewBox="0 0 52 52">
+            <svg width="80" height="80" viewBox="0 0 52 52">
               <circle
                 cx="26"
                 cy="26"
                 r={radius}
                 fill="none"
-                stroke="#e5e7eb"
+                stroke="#ffffff"
+                strokeOpacity="0.06"
                 strokeWidth="3"
               />
               <circle
@@ -287,70 +337,107 @@ export default function QuizScreen() {
                 y="26"
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize="13"
-                fontWeight="bold"
+                fontSize="15"
+                fontWeight="900"
                 fill={timerColor}
               >
                 {displayTime}
               </text>
             </svg>
           </div>
-          {isTimedOut && (
-            <p className="text-red-500 text-xs sm:text-sm font-medium mt-1">
-              Time's up!
-            </p>
-          )}
-          {isLowTime && (
-            <p className="text-[#f59e0b] text-xs sm:text-sm font-medium mt-1">
-              Hurry up!
-            </p>
-          )}
+          <span
+            className={`text-[10px] uppercase tracking-widest font-bold ${
+              isTimedOut
+                ? "text-red-400"
+                : isLowTime
+                  ? "text-[#f59e0b]"
+                  : "text-white/25"
+            }`}
+          >
+            {isTimedOut ? "Time's up" : isLowTime ? "Hurry!" : "Sec left"}
+          </span>
         </div>
 
         {/* Question Card */}
         <div
           key={currentQuestion}
-          className="bg-white/95  border border-black/15 rounded-2xl sm:rounded-3xl p-5 sm:p-8 mb-6 shadow-lg backdrop-blur-sm"
+          className="bg-[#0D1526] border border-white/[0.10] rounded-2xl sm:rounded-3xl p-5 sm:p-8 mb-4 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_16px_48px_rgba(0,0,0,0.5)]"
         >
-          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#1A1A2E] mb-6 sm:mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="bg-[#A78BFA]/10 border border-[#A78BFA]/20 rounded-lg px-2.5 py-1">
+              <span className="text-[#A78BFA] text-[10px] font-black tracking-widest uppercase">
+                Q{currentQuestion + 1}
+              </span>
+            </div>
+            <div className="flex-1 h-px bg-white/[0.06]" />
+          </div>
+
+          <h2 className="text-xl sm:text-2xl font-black text-white leading-snug mb-6 sm:mb-8">
             {questions[currentQuestion].question}
           </h2>
 
-          <div className="space-y-2 sm:space-y-3">
+          <div className="space-y-2">
             {questions[currentQuestion].options.map((option, index) => {
               const isSelected = selectedAnswer === index;
               const isCorrect =
                 index === questions[currentQuestion].correct_index;
               const showFeedback = selectedAnswer !== null;
+              const letter = ["A", "B", "C", "D"][index];
+
+              const buttonClasses = showFeedback
+                ? isCorrect
+                  ? "bg-[#34D399]/[0.12] border-[#34D399]/50 shadow-[0_0_24px_rgba(52,211,153,0.15)]"
+                  : isSelected
+                    ? "bg-red-500/10 border-red-400/40 shadow-[0_0_24px_rgba(239,68,68,0.12)]"
+                    : "bg-white/[0.03] border-white/[0.05] opacity-50 pointer-events-none"
+                : "bg-white/[0.08] border-white/[0.12] hover:bg-white/[0.13] hover:border-white/25 hover:shadow-[0_0_20px_rgba(167,139,250,0.08)] cursor-pointer";
+
+              const chipClasses = showFeedback
+                ? isCorrect
+                  ? "bg-[#34D399]/20 border-[#34D399]/40"
+                  : isSelected
+                    ? "bg-red-500/20 border-red-400/40"
+                    : "bg-white/[0.08] border-white/10"
+                : "bg-white/[0.08] border-white/10";
+
+              const letterClasses = showFeedback
+                ? isCorrect
+                  ? "text-[#34D399]"
+                  : isSelected
+                    ? "text-red-400"
+                    : "text-white/50"
+                : "text-white/50";
+
+              const optionTextClasses = showFeedback
+                ? isCorrect
+                  ? "text-[#34D399] font-semibold"
+                  : isSelected
+                    ? "text-red-300 font-semibold"
+                    : "text-white/90"
+                : "text-white/90";
 
               return (
                 <button
                   key={index}
                   onClick={() => selectedAnswer === null && handleAnswer(index)}
                   disabled={selectedAnswer !== null}
-                  className={`w-full p-3 sm:p-4 rounded-xl text-left transition-all flex items-center justify-between gap-3 min-h-[52px] ${
-                    showFeedback
-                      ? isSelected
-                        ? isCorrect
-                          ? "bg-green-500/20 border-2 border-green-500"
-                          : "bg-red-500/20 border-2 border-red-500"
-                        : isCorrect
-                          ? "bg-green-500/20 border-2 border-green-500"
-                          : "bg-white/95 border-2 border-black/15"
-                      : "bg-white/95 border-2 border-black/15 hover:border-black/15 cursor-pointer"
-                  }`}
+                  className={`w-full flex items-center gap-3 p-3.5 rounded-xl text-left border transition-all duration-150 active:scale-[0.99] ${buttonClasses}`}
                 >
-                  <span className="text-[#1A1A2E] text-sm sm:text-base">
+                  <div
+                    className={`w-8 h-8 rounded-lg flex-shrink-0 border flex items-center justify-center ${chipClasses}`}
+                  >
+                    <span className={`text-xs font-black ${letterClasses}`}>
+                      {letter}
+                    </span>
+                  </div>
+                  <span className={`text-sm sm:text-base flex-1 ${optionTextClasses}`}>
                     {option}
                   </span>
-                  {showFeedback && (isSelected || isCorrect) && (
-                    <div className="flex-shrink-0">
-                      {isCorrect ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
-                      ) : isSelected ? (
-                        <XCircle className="w-5 h-5 text-red-500" />
-                      ) : null}
-                    </div>
+                  {showFeedback && isCorrect && (
+                    <CheckCircle className="w-5 h-5 text-[#34D399] ml-auto flex-shrink-0" />
+                  )}
+                  {showFeedback && !isCorrect && isSelected && (
+                    <XCircle className="w-5 h-5 text-red-400 ml-auto flex-shrink-0" />
                   )}
                 </button>
               );
@@ -358,8 +445,8 @@ export default function QuizScreen() {
           </div>
         </div>
 
-        <p className="text-center text-[#1A1A2E]/50 text-xs sm:text-sm">
-          Earn 25 points for each correct answer!
+        <p className="text-center text-white/25 text-xs tracking-wide mt-2">
+          Earn 25 points for each correct answer
         </p>
       </div>
     </div>

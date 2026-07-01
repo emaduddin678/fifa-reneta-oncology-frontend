@@ -1,4 +1,3 @@
-import image_Asset_1_3 from "@/imports/Asset_1.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -6,10 +5,10 @@ import {
   Trophy,
   Clock,
   CheckCircle,
-  Loader2,
   History,
 } from "lucide-react";
 import { toast } from "sonner";
+import PremiumBackground from "../PremiumBackground";
 import { matchKey, type Match } from "@/app/lib/matches";
 import { fetchAllFixtures, wcFixtureToMatch } from "@/app/lib/fixtures";
 import {
@@ -53,11 +52,13 @@ function ScoreStepper({
   value,
   onChange,
   matchStarted,
+  accent,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
   matchStarted: boolean;
+  accent: "green" | "blue";
 }) {
   function handleClick(delta: number) {
     if (matchStarted) {
@@ -67,30 +68,38 @@ function ScoreStepper({
     onChange(delta > 0 ? Math.min(20, value + 1) : Math.max(0, value - 1));
   }
 
+  const boxClasses =
+    accent === "green"
+      ? "bg-[#34D399]/10 border-[#34D399]/30 shadow-[0_0_20px_rgba(52,211,153,0.1)]"
+      : "bg-[#1E90FF]/10 border-[#1E90FF]/30 shadow-[0_0_20px_rgba(30,144,255,0.1)]";
+  const textClasses = accent === "green" ? "text-[#34D399]" : "text-[#1E90FF]";
+  const incrementHover =
+    accent === "green"
+      ? "hover:bg-[#34D399]/10 hover:border-[#34D399]/30 hover:text-[#34D399]"
+      : "hover:bg-[#1E90FF]/10 hover:border-[#1E90FF]/30 hover:text-[#1E90FF]";
+
   return (
-    <div className="text-center">
-      <p className="text-[#1A1A2E]/70 text-xs sm:text-sm mb-2 font-semibold">
+    <div className="flex flex-col items-center gap-2">
+      <span className="text-white/30 text-[10px] uppercase tracking-widest">
         {label}
-      </p>
-      <div className="flex flex-col gap-2 items-center">
-        <button
-          onClick={() => handleClick(1)}
-          className="w-14 h-11 sm:w-16 sm:h-12 bg-gray-100 border border-black/10 rounded-lg text-[#1A1A2E] text-lg sm:text-xl min-h-[44px] font-bold"
-        >
-          +
-        </button>
-        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[#1E90FF] to-[#0066CC] rounded-xl flex items-center justify-center shadow">
-          <span className="text-white text-2xl sm:text-3xl font-bold">
-            {value}
-          </span>
-        </div>
-        <button
-          onClick={() => handleClick(-1)}
-          className="w-14 h-11 sm:w-16 sm:h-12 bg-gray-100 border border-black/10 rounded-lg text-[#1A1A2E] text-lg sm:text-xl min-h-[44px] font-bold"
-        >
-          −
-        </button>
+      </span>
+      <button
+        onClick={() => handleClick(1)}
+        className={`w-9 h-9 rounded-xl bg-white/[0.07] border border-white/10 text-white/60 active:scale-95 transition-all text-lg font-black flex items-center justify-center ${incrementHover}`}
+      >
+        +
+      </button>
+      <div
+        className={`w-14 h-14 rounded-2xl border flex items-center justify-center ${boxClasses}`}
+      >
+        <span className={`font-black text-2xl ${textClasses}`}>{value}</span>
       </div>
+      <button
+        onClick={() => handleClick(-1)}
+        className="w-9 h-9 rounded-xl bg-white/[0.07] border border-white/10 text-white/60 hover:bg-red-500/10 hover:border-red-400/30 hover:text-red-400 active:scale-95 transition-all text-lg font-black flex items-center justify-center"
+      >
+        −
+      </button>
     </div>
   );
 }
@@ -136,91 +145,108 @@ function MatchPredictionCard({
 
   return (
     <div
-      className={`border rounded-2xl p-4 sm:p-5 ${
-        submitted
-          ? "bg-white/95 border-[#1E90FF]/40"
-          : "bg-white/95 border-black/15"
+      className={`bg-[#0D1526] border rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.4)] ${
+        submitted ? "border-[#34D399]/25" : "border-white/[0.08]"
       }`}
     >
-      {/* Match header */}
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] sm:text-xs font-bold text-[#1A1A2E]/50 uppercase tracking-wide">
-          {match.group}
-        </span>
-        <div className="flex items-center gap-1 text-[#1A1A2E]/50">
+      {/* Stage + kickoff time strip */}
+      <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-white/[0.05]">
+        <div className="bg-[#34D399]/10 border border-[#34D399]/20 rounded-full px-2.5 py-0.5">
+          <span className="text-[#34D399] text-[9px] font-black tracking-widest uppercase">
+            {match.group}
+          </span>
+        </div>
+        <div className="flex items-center gap-1 text-white/30">
           <Clock className="w-3 h-3" />
-          <span className="text-[10px] sm:text-xs">{match.time} BST</span>
+          <span className="text-[10px] font-medium">{match.time} BST</span>
         </div>
       </div>
 
       {/* Teams row */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center justify-between px-4 pt-3 pb-1">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <img
             src={match.homeFlag}
             alt={match.homeName}
-            className="w-8 h-6 rounded object-cover border border-black/10 flex-shrink-0"
+            className="w-6 h-4 rounded-sm object-cover border border-white/10 flex-shrink-0"
           />
-          <span className="font-bold text-[#1A1A2E] text-sm sm:text-base truncate">
+          <span className="text-white font-bold text-sm truncate">
             {match.homeName}
           </span>
         </div>
-        <span className="text-[#1A1A2E]/40 font-black text-xs">VS</span>
+        <span className="text-white/20 text-xs font-black px-3">VS</span>
         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-          <span className="font-bold text-[#1A1A2E] text-sm sm:text-base truncate text-right">
+          <span className="text-white font-bold text-sm truncate text-right">
             {match.awayName}
           </span>
           <img
             src={match.awayFlag}
             alt={match.awayName}
-            className="w-8 h-6 rounded object-cover border border-black/10 flex-shrink-0"
+            className="w-6 h-4 rounded-sm object-cover border border-white/10 flex-shrink-0"
           />
         </div>
       </div>
 
       {/* Locked prediction or score pickers */}
       {submitted ? (
-        <div className="flex items-center justify-center gap-3 py-2">
-          <CheckCircle className="w-5 h-5 text-[#1E90FF] flex-shrink-0" />
-          <span className="text-[#1A1A2E] font-bold text-lg">
-            {existingPrediction.home_score} – {existingPrediction.away_score}
-          </span>
-          <span className="text-[#1A1A2E]/50 text-xs">Prediction locked</span>
+        <div className="px-4 pb-4">
+          <div className="flex items-center justify-center gap-4 py-3">
+            <div className="w-14 h-14 rounded-2xl bg-[#34D399]/10 border border-[#34D399]/30 flex items-center justify-center shadow-[0_0_20px_rgba(52,211,153,0.1)]">
+              <span className="text-[#34D399] font-black text-2xl">
+                {existingPrediction.home_score}
+              </span>
+            </div>
+            <span className="text-white/20 text-xl font-black">–</span>
+            <div className="w-14 h-14 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/30 flex items-center justify-center shadow-[0_0_20px_rgba(30,144,255,0.1)]">
+              <span className="text-[#1E90FF] font-black text-2xl">
+                {existingPrediction.away_score}
+              </span>
+            </div>
+          </div>
+          <div className="w-full py-3 rounded-xl bg-[#34D399]/10 border border-[#34D399]/20 flex items-center justify-center gap-2">
+            <CheckCircle className="w-4 h-4 text-[#34D399]" />
+            <span className="text-[#34D399] font-bold text-sm">
+              Prediction Submitted
+            </span>
+          </div>
         </div>
       ) : (
-        <>
-          <div className="flex items-center justify-center gap-4 sm:gap-8 mb-4">
+        <div className="px-4 pb-4">
+          <div className="flex items-center justify-center gap-6 py-4">
             <ScoreStepper
               label={match.homeName}
               value={homeScore}
               onChange={setHomeScore}
               matchStarted={started}
+              accent="green"
             />
-            <div className="text-3xl sm:text-4xl text-[#1A1A2E]/30 font-black">
-              :
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
             </div>
             <ScoreStepper
               label={match.awayName}
               value={awayScore}
               onChange={setAwayScore}
               matchStarted={started}
+              accent="blue"
             />
           </div>
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full py-3 bg-gradient-to-r from-[#1E90FF] to-[#0066CC] text-white rounded-xl font-bold text-sm min-h-[44px] disabled:opacity-60 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-[#34D399]/80 to-[#1E90FF]/80 hover:from-[#34D399] hover:to-[#1E90FF] text-white font-black text-sm tracking-widest uppercase shadow-[0_4px_20px_rgba(52,211,153,0.2)] active:scale-[0.98] transition-all duration-150 disabled:opacity-40 disabled:pointer-events-none"
           >
             {submitting ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Submitting…
-              </>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>Submitting…</span>
+              </div>
             ) : (
               "Submit Prediction"
             )}
           </button>
-        </>
+        </div>
       )}
     </div>
   );
@@ -277,42 +303,71 @@ export default function PredictionScreen() {
   }
 
   return (
-    <div className="min-h-screen pb-8">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-white/95 backdrop-blur-md border-b border-black/15 sticky top-0 z-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-[#1A1A2E] w-11 h-11 flex items-center justify-center"
-        >
-          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-        <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
-          <img
-            src={image_Asset_1_3}
-            alt="Logo"
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-[#1E90FF]" />
+    <div className="min-h-screen bg-[#0A0E1A] relative pb-12">
+      {/* Background — matches HomeDashboard */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+      </div>
+      <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
+        <PremiumBackground />
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-2xl mx-auto">
+      {/* Header */}
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0A0E1A]/80 backdrop-blur-md border-b border-white/[0.07]">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white/70 hover:text-white active:scale-95 transition-all"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
 
+        <div className="flex items-center gap-2">
+          <div className="w-1 h-4 bg-[#34D399] rounded-full" />
+          <span className="text-sm font-black text-white tracking-widest uppercase">
+            Predictions
+          </span>
+          <div className="w-1 h-4 bg-[#34D399] rounded-full" />
+        </div>
+
+        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#FFD700]/10 border border-[#FFD700]/20">
+          <Trophy className="w-4 h-4 text-[#FFD700]" />
+        </div>
+      </div>
+
+      <div className="relative z-10 px-0 sm:px-0 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-2xl mx-auto">
         {loading ? (
-          <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-6 h-6 animate-spin text-[#1E90FF]" />
+          <div className="space-y-3">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div
+                key={i}
+                className="mx-4 sm:mx-6 bg-[#0D1526] border border-white/[0.06] rounded-2xl p-4 animate-pulse"
+              >
+                <div className="h-3 bg-white/[0.06] rounded w-1/3 mb-3" />
+                <div className="h-8 bg-white/[0.06] rounded mb-3" />
+                <div className="flex justify-center gap-8">
+                  <div className="w-14 h-14 bg-white/[0.06] rounded-2xl" />
+                  <div className="w-14 h-14 bg-white/[0.06] rounded-2xl" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <>
             {/* ── TODAY'S OPEN MATCHES ── */}
             {todayMatches.length > 0 && (
               <div>
-                <h2 className="text-[#1A1A2E] font-black text-base sm:text-lg mb-1 flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-[#1E90FF]" />
-                  Today's Matches
-                </h2>
-                <p className="text-[#1A1A2E]/50 text-xs mb-3">{today}</p>
-                <div className="space-y-3">
+                <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
+                  <div className="w-1 h-5 bg-[#34D399] rounded-full" />
+                  <div>
+                    <h2 className="text-white font-black text-base tracking-tight">
+                      Today's Matches
+                    </h2>
+                    <p className="text-white/30 text-[10px] font-medium mt-0.5">
+                      {today}
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-3 px-4 sm:px-6">
                   {todayMatches.map((match) => (
                     <MatchPredictionCard
                       key={matchKey(match)}
@@ -331,19 +386,23 @@ export default function PredictionScreen() {
             {/* ── UPCOMING MATCHES (tomorrow / next scheduled day) ── */}
             {nextDate && (
               <div>
-                <h2 className="text-[#1A1A2E] font-black text-base sm:text-lg mb-1 flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-[#1E90FF]" />
-                  Upcoming Matches
-                </h2>
-                <p className="text-[#1A1A2E]/50 text-xs mb-3">
-                  {nextDate} — predict before kickoff!
-                </p>
+                <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
+                  <div className="w-1 h-5 bg-[#1E90FF] rounded-full" />
+                  <div>
+                    <h2 className="text-white font-black text-base tracking-tight">
+                      Upcoming Matches
+                    </h2>
+                    <p className="text-white/30 text-[10px] font-medium mt-0.5">
+                      {nextDate} — predict before kickoff!
+                    </p>
+                  </div>
+                </div>
                 {nextMatches.length === 0 ? (
-                  <div className="bg-white/95 border border-black/15 rounded-2xl p-6 text-center">
-                    <p className="text-[#1A1A2E]/60 text-sm">No matches scheduled.</p>
+                  <div className="mx-4 sm:mx-6 py-8 text-center bg-[#0D1526] border border-white/[0.07] rounded-2xl">
+                    <p className="text-white/20 text-sm">No matches scheduled.</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="space-y-3 px-4 sm:px-6">
                     {nextMatches.map((match) => (
                       <MatchPredictionCard
                         key={matchKey(match)}
@@ -363,10 +422,15 @@ export default function PredictionScreen() {
             {/* ── MY PREDICTIONS HISTORY ── */}
             {predictions.length > 0 && (
               <div>
-                <h2 className="text-[#1A1A2E] font-black text-base sm:text-lg mb-3 flex items-center gap-2">
-                  <History className="w-5 h-5 text-[#1E90FF]" />
-                  My Predictions
-                </h2>
+                <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
+                  <div className="w-1 h-5 bg-[#FFD700] rounded-full" />
+                  <div className="flex items-center gap-1.5">
+                    <History className="w-4 h-4 text-white/40" />
+                    <h2 className="text-white font-black text-base tracking-tight">
+                      My Predictions
+                    </h2>
+                  </div>
+                </div>
 
                 <div className="space-y-2">
                   {predictions
@@ -385,10 +449,10 @@ export default function PredictionScreen() {
                       return (
                         <div
                           key={p.id}
-                          className={`border rounded-xl px-4 py-3 flex items-center gap-3 ${
+                          className={`mx-4 sm:mx-6 rounded-xl px-4 py-3 flex items-center gap-3 transition-colors ${
                             isWin
-                              ? "bg-amber-50 border-amber-300"
-                              : "bg-white/95 border-black/15"
+                              ? "bg-[#FFD700]/[0.08] border border-[#FFD700]/30"
+                              : "bg-[#0D1526] border border-white/[0.07] hover:bg-white/[0.04]"
                           }`}
                         >
                           <div className="flex items-center gap-1 flex-shrink-0">
@@ -396,40 +460,44 @@ export default function PredictionScreen() {
                               <img
                                 src={p.home_flag}
                                 alt={p.home_team}
-                                className="w-7 h-5 rounded object-cover border border-black/10"
+                                className="w-5 h-3.5 rounded-sm object-cover border border-white/10"
                               />
                             )}
                             {p.away_flag && (
                               <img
                                 src={p.away_flag}
                                 alt={p.away_team}
-                                className="w-7 h-5 rounded object-cover border border-black/10"
+                                className="w-5 h-3.5 rounded-sm object-cover border border-white/10"
                               />
                             )}
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <p className="text-[#1A1A2E] font-bold text-xs sm:text-sm truncate">
+                            <p className="text-white/80 text-xs sm:text-sm font-semibold truncate">
                               {p.home_team} vs {p.away_team}
                             </p>
-                            <p className="text-[#1A1A2E]/50 text-[10px] sm:text-xs">
+                            <p className="text-white/30 text-[10px] sm:text-xs mt-0.5">
                               {p.match_date.slice(0, 10)}
                               {p.match_time ? ` · ${p.match_time} BST` : ""}
                             </p>
                           </div>
 
                           {isWin && (
-                            <Trophy className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                            <Trophy className="w-4 h-4 text-[#FFD700] flex-shrink-0" />
                           )}
 
                           <div
-                            className={`rounded-lg px-3 py-1.5 flex-shrink-0 ${
+                            className={`rounded-full px-3 py-1 flex-shrink-0 border ${
                               isWin
-                                ? "bg-gradient-to-br from-amber-400 to-amber-600"
-                                : "bg-gradient-to-br from-[#1E90FF] to-[#0066CC]"
+                                ? "bg-[#FFD700]/15 border-[#FFD700]/30"
+                                : "bg-[#1E90FF]/10 border-[#1E90FF]/25"
                             }`}
                           >
-                            <span className="text-white font-black text-sm">
+                            <span
+                              className={`font-black text-xs ${
+                                isWin ? "text-[#FFD700]" : "text-[#1E90FF]"
+                              }`}
+                            >
                               {p.home_score} – {p.away_score}
                             </span>
                           </div>

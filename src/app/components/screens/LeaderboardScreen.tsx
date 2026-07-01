@@ -1,4 +1,3 @@
-import image_Asset_1_9 from "@/imports/Asset_1.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -12,7 +11,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { toast } from "sonner";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
+import PremiumBackground from "../PremiumBackground";
 import {
   fetchLeaderboard,
   fetchDailyLeaderboard,
@@ -79,74 +78,91 @@ function LeaderboardBoard({
   return (
     <>
       {/* User Stats Card */}
-      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="bg-gradient-to-br from-[#1E90FF]/20 to-[#0066CC]/10 border-2 border-[#1E90FF] rounded-2xl p-4 sm:p-6 max-w-4xl mx-auto">
+      <div className="px-4 sm:px-6 py-4">
+        <div className="bg-gradient-to-br from-[#FFD700]/[0.08] to-[#1E90FF]/[0.05] border border-[#FFD700]/20 rounded-2xl p-5 sm:p-6 max-w-4xl mx-auto shadow-[0_0_40px_rgba(255,215,0,0.06)]">
           {error && (
-            <div className="text-center py-2 text-red-500 text-sm">{error}</div>
+            <div className="text-center py-2 text-red-400 text-sm">{error}</div>
           )}
           {loading ? (
-            <div className="text-center py-4 text-[#1A1A2E]/50 text-sm">
-              Loading your stats…
+            <div className="flex items-center justify-center py-8 gap-2">
+              <div className="w-5 h-5 border-2 border-white/20 border-t-[#FFD700] rounded-full animate-spin" />
+              <span className="text-white/30 text-xs">Loading your stats…</span>
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-5">
                 <div>
-                  <p className="text-[#1A1A2E] font-medium text-xs sm:text-sm mb-1">
+                  <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">
                     Your Rank
                   </p>
                   <div className="flex items-center gap-2">
-                    <span className="text-3xl sm:text-4xl font-bold text-[#1A1A2E]">
+                    <span
+                      className="text-4xl font-black text-white"
+                      style={{ textShadow: "0 0 24px rgba(255,215,0,0.25)" }}
+                    >
                       #{myStats?.rank ?? "—"}
                     </span>
-                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-                    
+                    <TrendingUp className="w-5 h-5 text-[#34D399]" />
                   </div>
                 </div>
-                <div className="flex items-center justify-center">
-                  <img
-                    src={getDailyBrandingImage()}
-                    alt="Sponsor"
-                    className="h-6 w-auto max-w-[90px] object-contain"
-                    style={{ imageRendering: "auto" }}
-                  />
-                </div>
+
+                <img
+                  src={getDailyBrandingImage()}
+                  alt="Sponsor"
+                  className="h-8 w-auto max-w-[100px] object-contain opacity-80 drop-shadow-lg"
+                />
+
                 <div className="text-right">
-                  <p className="text-[#1A1A2E] text-xs sm:text-sm mb-1 font-medium">
+                  <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">
                     Total Points
                   </p>
-                  <span className="text-2xl sm:text-3xl font-bold text-[#000]">
+                  <span
+                    className="text-4xl font-black text-[#FFD700]"
+                    style={{ textShadow: "0 0 24px rgba(255,215,0,0.35)" }}
+                  >
                     {myStats?.total ?? 0}
                   </span>
                 </div>
               </div>
 
-              <div className="border-t border-black/15 pt-4">
-                <p className="text-[#1A1A2E] text-xs sm:text-sm mb-3 font-medium">
+              <div className="border-t border-white/[0.07] pt-4">
+                <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">
                   Score Breakdown
                 </p>
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                  <div className="bg-white/95 rounded-xl p-3 sm:p-4 text-center">
-                    <div className="text-2xl mb-1">🧠</div>
-                    <p className="text-[#1A1A2E] text-xs mb-1">Quiz</p>
-                    <p className="text-[#1A1A2E] font-bold text-base sm:text-lg">
-                      {myStats?.quiz_score ?? 0}
-                    </p>
-                  </div>
-                  <div className="bg-white/95 rounded-xl p-3 sm:p-4 text-center">
-                    <div className="text-2xl mb-1">🎮</div>
-                    <p className="text-[#1A1A2E] text-xs mb-1">Games</p>
-                    <p className="text-[#1A1A2E] font-bold text-base sm:text-lg">
-                      {myStats?.game_score ?? 0}
-                    </p>
-                  </div>
-                  <div className="bg-white/95 rounded-xl p-3 sm:p-4 text-center">
-                    <div className="text-2xl mb-1">⚽</div>
-                    <p className="text-[#1A1A2E] text-xs mb-1">Prediction</p>
-                    <p className="text-[#1A1A2E] font-bold text-base sm:text-lg">
-                      {myStats?.prediction_score ?? 0}
-                    </p>
-                  </div>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  {[
+                    {
+                      emoji: "🧠",
+                      label: "Quiz",
+                      value: myStats?.quiz_score ?? 0,
+                      color: "#A78BFA",
+                    },
+                    {
+                      emoji: "🎮",
+                      label: "Games",
+                      value: myStats?.game_score ?? 0,
+                      color: "#F97316",
+                    },
+                    {
+                      emoji: "⚽",
+                      label: "Prediction",
+                      value: myStats?.prediction_score ?? 0,
+                      color: "#34D399",
+                    },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="bg-white/[0.05] border border-white/[0.07] rounded-xl p-3 text-center"
+                    >
+                      <div className="text-xl mb-1">{stat.emoji}</div>
+                      <p className="text-white/40 text-[10px] uppercase tracking-wide mb-1">
+                        {stat.label}
+                      </p>
+                      <p className="font-black text-lg" style={{ color: stat.color }}>
+                        {stat.value}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </>
@@ -156,66 +172,56 @@ function LeaderboardBoard({
 
       {/* Top 3 Podium */}
       {!loading && top3.length > 0 && (
-        <div className="px-4 sm:px-6 lg:px-8 mb-6">
-          <h3 className="text-[#1A1A2E] font-bold mb-4 text-sm sm:text-base max-w-4xl mx-auto">
+        <div className="px-4 sm:px-6 mb-6">
+          <h3 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4 max-w-4xl mx-auto">
             Top Champions
           </h3>
           <div className="flex items-end justify-center gap-1 sm:gap-2 mb-6 max-w-4xl mx-auto">
             {top3[1] && (
               <div className="flex-1 basis-0 min-w-0">
-                <div className="bg-gradient-to-br from-gray-300 to-gray-400 rounded-t-xl sm:rounded-t-2xl p-2 sm:p-4 text-center">
-                  <div className="text-2xl sm:text-3xl lg:text-4xl mb-1 sm:mb-2">
-                    🥈
-                  </div>
-                  <p className="text-gray-900 font-bold text-[10px] sm:text-sm mb-0.5 sm:mb-1 truncate px-1">
+                <div className="bg-white/[0.06] border border-white/10 rounded-t-xl p-2 sm:p-4 text-center">
+                  <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">🥈</div>
+                  <p className="text-white/80 font-bold text-[10px] sm:text-sm mb-0.5 truncate px-1">
                     {top3[1].name}
                   </p>
-                  <p className="text-gray-700 text-[9px] sm:text-xs">
-                    {top3[1].total} pts
-                  </p>
+                  <p className="text-white/50 text-[9px]">{top3[1].total} pts</p>
                 </div>
-                <div className="bg-gradient-to-b from-gray-300 to-gray-500 h-16 sm:h-24 rounded-b-xl flex items-center justify-center">
+                <div className="bg-gradient-to-b from-white/10 to-white/[0.03] h-16 sm:h-24 rounded-b-xl flex items-center justify-center">
                   <span className="text-2xl sm:text-3xl">🥈</span>
                 </div>
               </div>
             )}
             {top3[0] && (
               <div className="flex-1 basis-0 min-w-0">
-                <div className="bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-t-xl sm:rounded-t-2xl p-2 sm:p-4 text-center relative">
+                <div className="bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-t-2xl p-2 sm:p-4 text-center relative">
                   <div className="absolute -top-4 sm:-top-6 left-1/2 -translate-x-1/2">
-                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-[#1E90FF] to-[#0066CC] rounded-full flex items-center justify-center">
-                      <Trophy className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                    <div className="gold-pulse w-8 h-8 sm:w-12 sm:h-12 bg-[#FFD700] rounded-full flex items-center justify-center">
+                      <Trophy className="w-4 h-4 sm:w-6 sm:h-6 text-[#0A0E1A]" />
                     </div>
                   </div>
-                  <div className="text-3xl sm:text-4xl lg:text-5xl mb-1 sm:mb-2 mt-2 sm:mt-4">
-                    🏆
-                  </div>
-                  <p className="text-gray-900 font-bold text-xs sm:text-base mb-0.5 sm:mb-1 truncate px-1">
+                  <div className="text-3xl sm:text-4xl mb-1 sm:mb-2 mt-2 sm:mt-4">🏆</div>
+                  <p className="text-white font-black text-xs sm:text-sm mb-0.5 truncate px-1">
                     {top3[0].name}
                   </p>
-                  <p className="text-gray-700 text-[10px] sm:text-sm">
+                  <p className="text-[#FFD700] text-[10px] font-bold">
                     {top3[0].total} pts
                   </p>
                 </div>
-                <div className="bg-gradient-to-b from-yellow-400 to-yellow-600 h-20 sm:h-32 rounded-b-xl flex items-center justify-center">
+                <div className="bg-gradient-to-b from-[#FFD700]/20 to-[#FFD700]/5 h-24 sm:h-32 rounded-b-xl flex items-center justify-center">
                   <span className="text-3xl sm:text-4xl">🏆</span>
                 </div>
               </div>
             )}
             {top3[2] && (
               <div className="flex-1 basis-0 min-w-0">
-                <div className="bg-gradient-to-br from-orange-300 to-orange-400 rounded-t-xl sm:rounded-t-2xl p-2 sm:p-4 text-center">
-                  <div className="text-2xl sm:text-3xl lg:text-4xl mb-1 sm:mb-2">
-                    🥉
-                  </div>
-                  <p className="text-gray-900 font-bold text-[10px] sm:text-sm mb-0.5 sm:mb-1 truncate px-1">
+                <div className="bg-[#F97316]/[0.08] border border-[#F97316]/20 rounded-t-xl p-2 sm:p-4 text-center">
+                  <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">🥉</div>
+                  <p className="text-white/80 font-bold text-[10px] sm:text-sm mb-0.5 truncate px-1">
                     {top3[2].name}
                   </p>
-                  <p className="text-gray-700 text-[9px] sm:text-xs">
-                    {top3[2].total} pts
-                  </p>
+                  <p className="text-white/50 text-[9px]">{top3[2].total} pts</p>
                 </div>
-                <div className="bg-gradient-to-b from-orange-300 to-orange-500 h-14 sm:h-20 rounded-b-xl flex items-center justify-center">
+                <div className="bg-gradient-to-b from-[#F97316]/10 to-[#F97316]/[0.03] h-14 sm:h-20 rounded-b-xl flex items-center justify-center">
                   <span className="text-2xl sm:text-3xl">🥉</span>
                 </div>
               </div>
@@ -225,73 +231,80 @@ function LeaderboardBoard({
       )}
 
       {/* Full Rankings List */}
-      <div className="px-4 sm:px-6 lg:px-8 mb-6">
-        <h3 className="text-[#1A1A2E] font-bold mb-4 text-sm sm:text-base max-w-4xl mx-auto">
+      <div className="px-4 sm:px-6 mb-6">
+        <h3 className="text-white/50 text-xs font-bold uppercase tracking-widest mb-3 max-w-4xl mx-auto">
           All Rankings
         </h3>
         <div className="space-y-2 max-w-4xl mx-auto">
           {loading && (
-            <div className="text-center py-8 text-[#1A1A2E]/50 text-sm">
+            <div className="text-center py-8 text-white/30 text-sm">
               Loading rankings…
             </div>
           )}
           {!loading && board.length === 0 && (
-            <div className="text-center py-8 text-[#1A1A2E]/50 text-sm">
+            <div className="text-center py-8 text-white/30 text-sm">
               {emptyMessage}
             </div>
           )}
-          {board.map((entry) => (
-            <div
-              key={entry.id}
-              className={`bg-white/95 border border-black/15 rounded-xl p-3 sm:p-4 flex items-center justify-between ${
-                entry.id === myStats?.id ? "ring-2 ring-[#1E90FF]" : ""
-              }`}
-            >
-              <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 min-w-0 flex-1">
-                <div
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    entry.rank <= 3
-                      ? "bg-gradient-to-br from-[#1E90FF] to-[#0066CC]"
-                      : "bg-white/95 border border-black/10"
-                  }`}
-                >
-                  <span className="text-[#1A1A2E] font-bold text-sm sm:text-base">
-                    {entry.rank}
-                  </span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[#1A1A2E] font-bold text-sm sm:text-base truncate">
-                    {entry.name}
-                    {entry.id === myStats?.id && (
-                      <span className="ml-2 text-[#1E90FF] text-xs font-normal">
-                        (You)
-                      </span>
-                    )}
-                  </p>
-                  {entry.userid && (
-                    <p className="text-[#1A1A2E]/60 text-xs sm:text-sm">
-                      User ID: {entry.userid}
+          {board.map((entry) => {
+            const isMe = entry.id === myStats?.id;
+            const isTop3 = entry.rank <= 3;
+            return (
+              <div
+                key={entry.id}
+                className={`rounded-xl p-3 sm:p-4 flex items-center justify-between transition-all ${
+                  isMe
+                    ? "bg-[#1E90FF]/[0.05] border border-[#1E90FF]/20 ring-1 ring-[#1E90FF]/40"
+                    : "bg-[#0D1526] border border-white/[0.07]"
+                }`}
+              >
+                <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 min-w-0 flex-1">
+                  <div
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      isTop3
+                        ? "bg-[#FFD700]/15 border border-[#FFD700]/30"
+                        : "bg-white/[0.06] border border-white/[0.08]"
+                    }`}
+                  >
+                    <span
+                      className={`text-sm ${isTop3 ? "text-[#FFD700] font-black" : "text-white/50 font-bold"}`}
+                    >
+                      {entry.rank}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-white font-bold text-sm sm:text-base truncate">
+                      {entry.name}
+                      {isMe && (
+                        <span className="ml-2 text-[#1E90FF] text-xs font-normal">
+                          (You)
+                        </span>
+                      )}
                     </p>
+                    {entry.userid && (
+                      <p className="text-white/30 text-xs sm:text-sm">
+                        User ID: {entry.userid}
+                      </p>
+                    )}
+                    <p className="text-white/30 text-xs sm:text-sm">
+                      Quiz {entry.quiz_score} · Game {entry.game_score} · Pred{" "}
+                      {entry.prediction_score ?? 0}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                  <span className="text-white font-black text-base sm:text-lg">
+                    {entry.total} pts
+                  </span>
+                  {rankBadge(entry.rank) && (
+                    <span className="text-2xl sm:text-3xl">
+                      {rankBadge(entry.rank)}
+                    </span>
                   )}
-                  {console.log(entry)}
-                  <p className="text-[#1A1A2E]/60 text-xs sm:text-sm">
-                    Quiz {entry.quiz_score} · Game {entry.game_score} · Pred{" "}
-                    {entry.prediction_score ?? 0}
-                  </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                <span className="text-[#1A1A2E] font-bold text-sm sm:text-base">
-                  {entry.total} pts
-                </span>
-                {rankBadge(entry.rank) && (
-                  <span className="text-2xl sm:text-3xl">
-                    {rankBadge(entry.rank)}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </>
@@ -409,158 +422,188 @@ export default function LeaderboardScreen() {
   ];
 
   return (
-    <div className="min-h-screen pb-8">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-white/95 backdrop-blur-md border-b border-black/15 sticky top-0 z-10">
-        <button
-          onClick={() => navigate("/home")}
-          className="text-[#1A1A2E] w-11 h-11 flex items-center justify-center"
-        >
-          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-        <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
-          <ImageWithFallback
-            src={image_Asset_1_9}
-            alt="Rolac Logo"
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <button
-          onClick={handleLogout}
-          title="Logout"
-          className="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-black/10 text-red-500 hover:bg-red-50 active:scale-95 transition-all shadow"
-        >
-          <LogOut className="w-5 h-5" />
-        </button>
+    <div className="min-h-screen bg-[#0A0E1A] relative pb-10">
+      <style>{`
+        @keyframes goldPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.35); }
+          50% { box-shadow: 0 0 0 8px rgba(255,215,0,0); }
+        }
+        .gold-pulse { animation: goldPulse 2.2s ease-out infinite; }
+      `}</style>
+
+      {/* Background — matches HomeDashboard */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+      </div>
+      <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
+        <PremiumBackground />
       </div>
 
-      {/* Tab Bar */}
-      <div className="bg-white border-b border-black/10 px-2 sm:px-4">
-        <div className="flex max-w-4xl mx-auto">
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.key;
-            return (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`flex-1 flex flex-col items-center gap-0.5 pt-3 pb-2 px-1 relative transition-colors ${
-                  isActive ? "text-[#6C5CE7]" : "text-[#1A1A2E]/50"
-                }`}
-              >
-                <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5" />
-                <span
-                  className={`text-[11px] sm:text-xs font-bold leading-tight text-center ${isActive ? "text-[#6C5CE7]" : "text-[#1A1A2E]/70"}`}
+      {/* Header + Tab Bar — one sticky block so both stay pinned together */}
+      <div className="sticky top-0 z-20 bg-[#0A0E1A]/80 backdrop-blur-md border-b border-white/[0.07]">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-white/[0.05]">
+          <button
+            onClick={() => navigate("/home")}
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white/70 hover:text-white active:scale-95 transition-all"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-4 bg-[#FFD700] rounded-full" />
+            <span className="text-sm font-black text-white tracking-widest uppercase">
+              Leaderboard
+            </span>
+            <div className="w-1 h-4 bg-[#FFD700] rounded-full" />
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1 text-white/35 text-xs underline hover:text-white/60 transition-colors"
+          >
+            <LogOut className="w-3 h-3" />
+            Sign out
+          </button>
+        </div>
+
+        <div className="px-2 sm:px-4">
+          <div className="flex max-w-4xl mx-auto">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`flex-1 flex flex-col items-center gap-0.5 pt-3 pb-2 px-1 relative transition-all duration-200 ${
+                    isActive ? "text-[#FFD700]" : "text-white/30 hover:text-white/60"
+                  }`}
                 >
-                  {tab.label}
-                </span>
-                <span
-                  className={`text-[9px] sm:text-[10px] leading-tight text-center ${isActive ? "text-[#6C5CE7]/70" : "text-[#1A1A2E]/40"}`}
-                >
-                  {tab.sub}
-                </span>
-                {isActive && (
-                  <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#6C5CE7] rounded-full" />
-                )}
-              </button>
-            );
-          })}
+                  <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5" />
+                  <span
+                    className={`text-[11px] sm:text-xs font-bold leading-tight text-center ${
+                      isActive ? "text-[#FFD700]" : "text-white/40"
+                    }`}
+                  >
+                    {tab.label}
+                  </span>
+                  <span
+                    className={`text-[9px] leading-tight text-center ${
+                      isActive ? "text-[#FFD700]/60" : "text-white/20"
+                    }`}
+                  >
+                    {tab.sub}
+                  </span>
+                  {isActive && (
+                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#FFD700] rounded-full shadow-[0_0_8px_rgba(255,215,0,0.7)]" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* Tab Content */}
-      {activeTab === "daily" && (
-        <LeaderboardBoard
-          loading={dailyLoading}
-          error={dailyError}
-          myStats={dailyMyStats}
-          board={dailyBoard}
-          emptyMessage="No scores yet today. Play the quiz or mini-game!"
-        />
-      )}
+      <div className="relative z-10">
+        {activeTab === "daily" && (
+          <LeaderboardBoard
+            loading={dailyLoading}
+            error={dailyError}
+            myStats={dailyMyStats}
+            board={dailyBoard}
+            emptyMessage="No scores yet today. Play the quiz or mini-game!"
+          />
+        )}
 
-      {activeTab === "global" && (
-        <LeaderboardBoard
-          loading={globalLoading}
-          error={globalError}
-          myStats={globalMyStats}
-          board={globalBoard}
-          emptyMessage="No scores yet. Play the quiz or mini-game!"
-        />
-      )}
+        {activeTab === "global" && (
+          <LeaderboardBoard
+            loading={globalLoading}
+            error={globalError}
+            myStats={globalMyStats}
+            board={globalBoard}
+            emptyMessage="No scores yet. Play the quiz or mini-game!"
+          />
+        )}
 
-      {activeTab === "winners" && (
-        <div className="px-4 sm:px-6 lg:px-8 mt-4 max-w-4xl mx-auto space-y-3">
-          {winnersError && (
-            <div className="text-center py-6 text-red-500 text-sm">
-              {winnersError}
-            </div>
-          )}
-          {winnersLoading && (
-            <div className="text-center py-12 text-[#1A1A2E]/50 text-sm">
-              Loading daily winners…
-            </div>
-          )}
-          {!winnersLoading && winners.length === 0 && !winnersError && (
-            <div className="text-center py-12 text-[#1A1A2E]/50 text-sm">
-              No daily winners yet. Check back tomorrow!
-            </div>
-          )}
-          {winners.map((winner, index) => (
-            <div
-              key={winner.date}
-              className={`relative bg-white/95 border rounded-2xl p-4 sm:p-5 flex items-center gap-4 ${
-                index === 0
-                  ? "border-yellow-400 ring-2 ring-yellow-300/60"
-                  : "border-black/10"
-              }`}
-            >
-              {/* Date badge top-left */}
+        {activeTab === "winners" && (
+          <div className="px-4 sm:px-6 pt-4 max-w-4xl mx-auto space-y-3">
+            {winnersError && (
+              <div className="text-center py-6 text-red-400 text-sm">
+                {winnersError}
+              </div>
+            )}
+            {winnersLoading && (
+              <div className="flex items-center justify-center py-16 gap-2">
+                <div className="w-5 h-5 border-2 border-white/20 border-t-[#FFD700] rounded-full animate-spin" />
+                <span className="text-white/30 text-sm">Loading winners…</span>
+              </div>
+            )}
+            {!winnersLoading && winners.length === 0 && !winnersError && (
+              <div className="text-center py-16 text-white/25 text-sm">
+                No daily winners yet. Check back tomorrow!
+              </div>
+            )}
+            {winners.map((winner, index) => (
               <div
-                className={`absolute -top-3 left-4 flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm ${
+                key={winner.date}
+                className={`relative rounded-2xl p-4 sm:p-5 flex items-center gap-4 ${
                   index === 0
-                    ? "bg-yellow-400 text-yellow-900"
-                    : "bg-[#1E90FF] text-white"
+                    ? "bg-[#FFD700]/[0.07] border border-[#FFD700]/25 shadow-[0_0_32px_rgba(255,215,0,0.08)]"
+                    : "bg-white/[0.04] border border-white/[0.07]"
                 }`}
               >
-                <Calendar className="w-3 h-3" />
-                <span>{formatDate(winner.date)}</span>
-              </div>
-
-              {/* Card body */}
-              <div className="mt-2 flex items-center gap-4 w-full">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600">
-                  <Trophy className="w-6 h-6 text-white" />
+                {/* Date badge top-left */}
+                <div
+                  className={`absolute -top-3 left-4 flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold shadow-sm ${
+                    index === 0
+                      ? "bg-[#FFD700] text-[#0A0E1A]"
+                      : "bg-[#1E90FF]/80 text-white"
+                  }`}
+                >
+                  <Calendar className="w-3 h-3" />
+                  <span>{formatDate(winner.date)}</span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[#1A1A2E] font-bold text-base sm:text-lg mb-0.5">
-                    {winner.doctor_name}
-                  </p>
-                  <p className="text-[#1A1A2E]/60 text-xs sm:text-sm mb-2">
-                    User ID: {winner.doctor_user_id}
-                  </p>
-                  <div className="flex gap-2 flex-wrap">
-                    <span className="text-[10px] sm:text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">
-                      🧠 Quiz {winner.quiz_score}
-                    </span>
-                    <span className="text-[10px] sm:text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full">
-                      🎮 Game {winner.game_score}
-                    </span>
-                    <span className="text-[10px] sm:text-xs bg-orange-50 text-orange-700 px-2 py-0.5 rounded-full">
-                      ⚽ Pred {winner.prediction_score}
-                    </span>
+
+                {/* Card body */}
+                <div className="mt-2 flex items-center gap-4 w-full">
+                  <div
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600 ${
+                      index === 0 ? "gold-pulse" : ""
+                    }`}
+                  >
+                    <Trophy className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-bold text-base mb-0.5">
+                      {winner.doctor_name}
+                    </p>
+                    <p className="text-white/30 text-xs mb-2">
+                      User ID: {winner.doctor_user_id}
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      <span className="text-[10px] sm:text-xs bg-[#A78BFA]/10 text-[#A78BFA] border border-[#A78BFA]/20 px-2 py-0.5 rounded-full font-semibold">
+                        🧠 Quiz {winner.quiz_score}
+                      </span>
+                      <span className="text-[10px] sm:text-xs bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/20 px-2 py-0.5 rounded-full font-semibold">
+                        🎮 Game {winner.game_score}
+                      </span>
+                      <span className="text-[10px] sm:text-xs bg-[#34D399]/10 text-[#34D399] border border-[#34D399]/20 px-2 py-0.5 rounded-full font-semibold">
+                        ⚽ Pred {winner.prediction_score}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-[#FFD700] font-black text-2xl sm:text-3xl">
+                      {winner.total_score}
+                    </p>
+                    <p className="text-white/30 text-xs">pts</p>
                   </div>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-2xl sm:text-3xl font-bold text-[#1E90FF]">
-                    {winner.total_score}
-                  </p>
-                  <p className="text-[#1A1A2E]/50 text-xs">pts</p>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
