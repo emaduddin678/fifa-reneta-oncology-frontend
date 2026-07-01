@@ -10,6 +10,9 @@ import {
   BadgeHelp,
   TrendingUp,
   ChevronRight,
+  PlayCircle,
+  Gift,
+  Trophy,
 } from "lucide-react";
 import { toast } from "sonner";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
@@ -31,6 +34,7 @@ function withAlpha(color: string, alpha: number): string {
 export default function HomeDashboard() {
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showCouponModal, setShowCouponModal] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -45,6 +49,14 @@ export default function HomeDashboard() {
   }
 
   const quickActions = [
+    {
+      icon: PlayCircle,
+      label: "LIVE",
+      subtitle: "Watch the match live",
+      route: "",
+      featured: true,
+      iconColor: "#1E90FF",
+    },
     {
       icon: Crosshair,
       label: "PREDICTION",
@@ -149,6 +161,58 @@ export default function HomeDashboard() {
           </div>
         )}
 
+        {/* Toffee Live Coupon Info Modal */}
+        {showCouponModal && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6"
+            onClick={() => setShowCouponModal(false)}
+          >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div
+              className="relative z-10 w-full max-w-[340px] bg-[#0D1526] border border-white/10 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+              style={{
+                animation:
+                  "modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/20 flex items-center justify-center mx-auto mb-4">
+                <Gift className="w-7 h-7 text-[#1E90FF]" />
+              </div>
+              <h2 className="text-white font-bold text-lg text-center mb-1">
+                Win a Free Toffee Live Coupon
+              </h2>
+              <p className="text-white/40 text-sm text-center mb-5">
+                Every match day, the top 100 players on the leaderboard
+                receive a free Toffee Live coupon code to stream the FIFA
+                World Cup live.
+              </p>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 space-y-3">
+                <div className="flex items-start gap-3">
+                  <Trophy className="w-4 h-4 text-[#FFD700] flex-shrink-0 mt-0.5" />
+                  <span className="text-white/70 text-xs">
+                    Rankings are based on your combined Trivia Quiz and Mini
+                    Game scores.
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Gift className="w-4 h-4 text-[#1E90FF] flex-shrink-0 mt-0.5" />
+                  <span className="text-white/70 text-xs">
+                    Top 100 finishers get notified here with their coupon
+                    code, free to redeem on Toffee Live.
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowCouponModal(false)}
+                className="w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ── HEADER ── flex-shrink-0 so it never compresses on mobile */}
         <div
           className="relative z-10 px-4 pt-5 pb-3 flex flex-col items-center flex-shrink-0"
@@ -207,6 +271,40 @@ export default function HomeDashboard() {
                 transition: "opacity 0.4s ease, transform 0.4s ease",
               };
 
+              /* ── LIVE (featured) tile ── */
+              if (action.featured) {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setShowCouponModal(true)}
+                    style={tileStyle}
+                    className=" py-2
+                      col-span-2
+                      bg-gradient-to-r from-[#1E3A8A]/60 to-[#1E90FF]/20
+                      border border-[#1E90FF]/40 rounded-2xl
+                      flex items-center gap-4 px-4
+                      sm:min-h-[90px]
+                      active:scale-[0.97] transition-transform
+                    "
+                  >
+                    <PlayCircle
+                      className="w-10 h-10 sm:w-12 sm:h-12 text-[#1E90FF] flex-shrink-0"
+                      strokeWidth={2}
+                    />
+                    <div className="flex-1 text-left">
+                      <div className="text-sm sm:text-base font-black text-white tracking-wide leading-tight uppercase">
+                        Win a Free Toffee Live Coupon
+                      </div>
+                      <div className="text-xs text-white/50">
+                        Top 100 players get rewarded
+                      </div>
+                    </div>
+                    <Gift className="w-6 h-6 text-[#1E90FF] flex-shrink-0" />
+                  </button>
+                );
+              }
+
+              /* ── Standard tiles ── */
               return (
                 <button
                   key={index}
