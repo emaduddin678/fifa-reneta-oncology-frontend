@@ -1,8 +1,6 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
 import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
 import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
-import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
-import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -82,9 +80,9 @@ export default function LoginScreen() {
     <div className="h-[100dvh] w-full relative overflow-hidden flex flex-col items-center justify-center px-4">
       <style>{`
         @keyframes ctaPulse {
-          0%   { box-shadow: 0 8px 32px rgba(107,53,168,0.45), 0 0 0 0 rgba(107,53,168,0.4); }
-          70%  { box-shadow: 0 8px 32px rgba(107,53,168,0.45), 0 0 0 16px rgba(107,53,168,0); }
-          100% { box-shadow: 0 8px 32px rgba(107,53,168,0.45), 0 0 0 0 rgba(107,53,168,0); }
+          0%   { box-shadow: 0 8px 32px rgba(30,144,255,0.4), 0 0 0 0 rgba(30,144,255,0.4); }
+          70%  { box-shadow: 0 8px 32px rgba(30,144,255,0.4), 0 0 0 16px rgba(30,144,255,0); }
+          100% { box-shadow: 0 8px 32px rgba(30,144,255,0.4), 0 0 0 0 rgba(30,144,255,0); }
         }
         @keyframes loginShake {
           0%, 100% { transform: translateX(0); }
@@ -103,9 +101,6 @@ export default function LoginScreen() {
         .card-shake { animation: loginShake 0.5s ease-in-out; }
         .overlay-in { animation: overlayIn 0.2s ease forwards; }
         .modal-in { animation: modalIn 0.28s cubic-bezier(0.16,1,0.3,1) forwards; }
-        .text-shadow { text-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3); }
-        .text-shadow-lg { text-shadow: 0 2px 4px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35); }
-        .icon-shadow { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
       `}</style>
 
       {/* Background — same layered stadium/brushstroke/silhouette artwork as landing */}
@@ -128,13 +123,11 @@ export default function LoginScreen() {
 
       {/* Login card */}
       <div
-        className={`relative z-30 w-full max-w-[400px] rounded-3xl border border-white/25 p-8 sm:p-10 ${isShaking ? "card-shake" : ""}`}
+        className={`relative z-30 w-full max-w-[400px] bg-white/95 rounded-3xl border border-black/15 p-8 sm:p-10 ${isShaking ? "card-shake" : ""}`}
         style={{
-          background: "rgba(255,255,255,0.12)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-          boxShadow:
-            "0 24px 80px rgba(107,53,168,0.25), 0 1px 0 rgba(255,255,255,0.4) inset",
+          boxShadow: "0 24px 80px rgba(0,0,0,0.18)",
           opacity: visible ? 1 : 0,
           transform: visible
             ? "translateY(0) scale(1)"
@@ -161,15 +154,15 @@ export default function LoginScreen() {
               className="w-full h-auto object-contain"
             />
           </div>
-          <p className="text-linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%) text-[11px] font-black tracking-[0.15em]  uppercase">
+          <p className="text-[#1E90FF] text-[11px] font-black tracking-[0.15em] uppercase">
             FIFA World Cup
           </p>
-          <p className="text-linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%) text-[10px] font-medium tracking-widest  uppercase">
+          <p className="text-[#1A1A2E]/50 text-[10px] font-medium tracking-widest uppercase">
             Festival 2026
           </p>
         </div>
 
-        <div className="w-12 h-px bg-white/20 mx-auto my-4" />
+        <div className="w-12 h-px bg-black/10 mx-auto my-4" />
 
         {/* Heading */}
         <div
@@ -179,10 +172,10 @@ export default function LoginScreen() {
             transitionDelay: "350ms",
           }}
         >
-          <h1 className="text-shadow-lg text-2xl font-black text-white tracking-tight text-center">
+          <h1 className="text-2xl font-black text-[#1A1A2E] tracking-tight text-center">
             Welcome Back
           </h1>
-          <p className="text-xs text-linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%) text-center mt-1 mb-6">
+          <p className="text-xs text-[#1A1A2E]/50 text-center mt-1 mb-6">
             Enter your credentials to continue
           </p>
         </div>
@@ -199,8 +192,8 @@ export default function LoginScreen() {
             }}
           >
             <div className="flex items-center mb-1.5 ml-1">
-              <User className="icon-shadow w-3.5 h-3.5 text-white/70" />
-              <span className="text-shadow text-xs font-semibold text-white tracking-wide uppercase ml-1">
+              <User className="w-3.5 h-3.5 text-[#1A1A2E]/50" />
+              <span className="text-xs font-semibold text-[#1A1A2E]/70 tracking-wide uppercase ml-1">
                 Username
               </span>
             </div>
@@ -209,11 +202,10 @@ export default function LoginScreen() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
-              className={`w-full rounded-2xl px-4 py-3.5 text-sm text-white placeholder:text-white/25 outline-none transition-all duration-200 focus:border-[#A78BFA]/60 focus:ring-2 focus:ring-[#A78BFA]/15 focus:bg-white/[0.12] ${
-                isError ? "border-red-400/50" : "border-white/[0.12]"
+              className={`w-full rounded-2xl px-4 py-3.5 text-sm text-[#1A1A2E] bg-gray-50 placeholder:text-black/30 outline-none transition-all duration-200 focus:border-[#1E90FF]/60 focus:ring-2 focus:ring-[#1E90FF]/15 focus:bg-white ${
+                isError ? "border-red-400/60" : "border-black/10"
               }`}
               style={{
-                background: "rgba(255,255,255,0.08)",
                 borderWidth: 1,
                 borderStyle: "solid",
               }}
@@ -232,15 +224,15 @@ export default function LoginScreen() {
           >
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center ml-1">
-                <Lock className="icon-shadow w-3.5 h-3.5 text-white/70" />
-                <span className="text-shadow text-xs font-semibold text-white tracking-wide uppercase ml-1">
+                <Lock className="w-3.5 h-3.5 text-[#1A1A2E]/50" />
+                <span className="text-xs font-semibold text-[#1A1A2E]/70 tracking-wide uppercase ml-1">
                   Password
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowForgotModal(true)}
-                className=" text-xs text-linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%) font-medium hover:text-[#DED0FF] transition-colors"
+                className="cursor-pointer text-xs text-[#1E90FF] font-medium hover:text-[#0066CC] transition-colors"
               >
                 Forgot Password?
               </button>
@@ -251,11 +243,10 @@ export default function LoginScreen() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className={`w-full rounded-2xl px-4 py-3.5 pr-11 text-sm text-white placeholder:text-white/25 outline-none transition-all duration-200 focus:border-[#A78BFA]/60 focus:ring-2 focus:ring-[#A78BFA]/15 focus:bg-white/[0.12] ${
-                  isError ? "border-red-400/50" : "border-white/[0.12]"
+                className={`w-full rounded-2xl px-4 py-3.5 pr-11 text-sm text-[#1A1A2E] bg-gray-50 placeholder:text-black/30 outline-none transition-all duration-200 focus:border-[#1E90FF]/60 focus:ring-2 focus:ring-[#1E90FF]/15 focus:bg-white ${
+                  isError ? "border-red-400/60" : "border-black/10"
                 }`}
                 style={{
-                  background: "rgba(255,255,255,0.08)",
                   borderWidth: 1,
                   borderStyle: "solid",
                 }}
@@ -264,7 +255,7 @@ export default function LoginScreen() {
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-[#1A1A2E]/30 hover:text-[#1A1A2E]/60 transition-colors"
               >
                 {showPassword ? (
                   <EyeOff className="w-4 h-4" />
@@ -276,9 +267,9 @@ export default function LoginScreen() {
           </div>
 
           {isError && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">
-              <AlertCircle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
-              <span className="text-xs text-red-300">
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
+              <AlertCircle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+              <span className="text-xs text-red-600">
                 Invalid username or password.
               </span>
             </div>
@@ -290,7 +281,7 @@ export default function LoginScreen() {
             disabled={!username || !password || isLoading}
             className={` cursor-pointer cta-pulse flex items-center justify-center gap-2 w-full py-4 px-6 rounded-2xl text-white font-black text-sm tracking-widest uppercase transition-all duration-150 hover:brightness-110 hover:scale-[1.01] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-80`}
             style={{
-              background: "linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%)",
+              background: "linear-gradient(135deg, #1E90FF 0%, #0066CC 100%)",
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(8px)",
               transition: "opacity 0.5s ease, transform 0.5s ease",
@@ -318,14 +309,14 @@ export default function LoginScreen() {
           }}
         >
           <div className="flex items-center gap-1">
-            <ShieldCheck className="icon-shadow w-3 h-3 text-white/50" />
-            <span className="text-shadow text-[9px] text-white/50 font-medium tracking-wide">
+            <ShieldCheck className="w-3 h-3 text-[#1A1A2E]/40" />
+            <span className="text-[9px] text-[#1A1A2E]/40 font-medium tracking-wide">
               Secure &amp; encrypted
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <Lock className="icon-shadow w-3 h-3 text-white/50" />
-            <span className="text-shadow text-[9px] text-white/50 font-medium tracking-wide">
+            <Lock className="w-3 h-3 text-[#1A1A2E]/40" />
+            <span className="text-[9px] text-[#1A1A2E]/40 font-medium tracking-wide">
               HIPAA compliant
             </span>
           </div>
@@ -334,13 +325,13 @@ export default function LoginScreen() {
 
       {/* XRI credit */}
       <div className="absolute bottom-4 left-0 right-0 text-center z-30">
-        <p className="text-shadow text-[10px] text-white/40 tracking-wide">
+        <p className="text-[10px] text-white/70 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
           Developed by{" "}
           <a
             href="https://xri.com.bd"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white/60 font-semibold"
+            className="text-white font-semibold"
           >
             XR Interactive
           </a>
@@ -353,7 +344,7 @@ export default function LoginScreen() {
         <div
           className="overlay-in fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{
-            background: "rgba(10,6,24,0.6)",
+            background: "rgba(10,10,20,0.5)",
             backdropFilter: "blur(6px)",
             WebkitBackdropFilter: "blur(6px)",
           }}
@@ -363,13 +354,11 @@ export default function LoginScreen() {
           aria-labelledby="forgot-modal-title"
         >
           <div
-            className="modal-in relative w-full max-w-[360px] rounded-3xl border border-white/25 p-7"
+            className="modal-in relative w-full max-w-[360px] bg-white/95 rounded-3xl border border-black/15 p-7"
             style={{
-              background: "rgba(255,255,255,0.12)",
               backdropFilter: "blur(24px) saturate(1.4)",
               WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-              boxShadow:
-                "0 24px 80px rgba(107,53,168,0.35), 0 1px 0 rgba(255,255,255,0.4) inset",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.25)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -378,7 +367,7 @@ export default function LoginScreen() {
               type="button"
               onClick={() => setShowForgotModal(false)}
               aria-label="Close"
-              className="absolute right-4 top-4 text-white/40 hover:text-white/80 transition-colors"
+              className="cursor-pointer absolute right-4 top-4 text-[#1A1A2E]/40 hover:text-[#1A1A2E]/80 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -387,22 +376,22 @@ export default function LoginScreen() {
             <div
               className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
               style={{
-                background: "linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%)",
-                boxShadow: "0 8px 24px rgba(107,53,168,0.45)",
+                background: "linear-gradient(135deg, #1E90FF 0%, #0066CC 100%)",
+                boxShadow: "0 8px 24px rgba(30,144,255,0.4)",
               }}
             >
-              <KeyRound className="w-6 h-6 text-white icon-shadow" />
+              <KeyRound className="w-6 h-6 text-white" />
             </div>
 
             <h2
               id="forgot-modal-title"
-              className="text-shadow-lg text-lg font-black text-white text-center"
+              className="text-lg font-black text-[#1A1A2E] text-center"
             >
               Password Managed by Cancer Care
             </h2>
-            <p className="text-center text-[13px] leading-relaxed text-white/70 mt-2">
+            <p className="text-center text-[13px] leading-relaxed text-[#1A1A2E]/60 mt-2">
               Your account and password are managed on the{" "}
-              <span className="font-semibold text-white">Cancer Care</span>{" "}
+              <span className="font-semibold text-[#1A1A2E]">Cancer Care</span>{" "}
               website. To reset or change your password, please do it there —
               the change updates your login here automatically.
             </p>
@@ -415,7 +404,7 @@ export default function LoginScreen() {
               onClick={() => setShowForgotModal(false)}
               className="cursor-pointer mt-5 flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl text-white font-black text-xs tracking-widest uppercase transition-all duration-150 hover:brightness-110 hover:scale-[1.01] active:scale-[0.98]"
               style={{
-                background: "linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%)",
+                background: "linear-gradient(135deg, #1E90FF 0%, #0066CC 100%)",
               }}
             >
               Go to Cancer Care
@@ -424,7 +413,7 @@ export default function LoginScreen() {
             <button
               type="button"
               onClick={() => setShowForgotModal(false)}
-              className="mt-2.5 w-full py-2.5 text-xs font-semibold text-white/50 hover:text-white/80 transition-colors"
+              className="cursor-pointer mt-2.5 w-full py-2.5 text-xs font-semibold text-[#1A1A2E]/50 hover:text-[#1A1A2E]/80 transition-colors"
             >
               Got it
             </button>
