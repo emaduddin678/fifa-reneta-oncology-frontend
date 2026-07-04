@@ -44,12 +44,20 @@ export function clearAuth(): void {
   localStorage.removeItem(USER_KEY);
 }
 
+// Endpoint 3 — this frontend's own backend (accounts, SSO exchange, quiz,
+// game scores, leaderboards, predictions, highlights, coupons, etc.)
 export const API_BASE =
   import.meta.env.VITE_API_BASE_URL ??
-  "https://backend.cancercareworldcup.com/api";
+  "https://api-football.cancercare.pro/api";
 export const API_BASE_NOAPI =
   import.meta.env.VITE_API_BASE_URL_NOAPI ??
-  "https://backend.cancercareworldcup.com/";
+  "https://api-football.cancercare.pro/";
+
+// Endpoint 2 — the World Cup data backend. Read-only match reference data:
+// fixtures (/wc/fixtures*) and graded match results (/match-results).
+export const WORLDCUP_API_BASE =
+  import.meta.env.VITE_WORLDCUP_API_BASE_URL ??
+  "https://backend.cancercareworldcup.com/api";
 
 // The Cancer Care social site — owns accounts/passwords and provides SSO.
 export const CANCERCARE_URL =
@@ -408,7 +416,7 @@ export interface MatchResult {
 export async function fetchMatchResults(): Promise<
   Record<string, MatchResult>
 > {
-  const res = await fetch(`${API_BASE}/match-results`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/match-results`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();

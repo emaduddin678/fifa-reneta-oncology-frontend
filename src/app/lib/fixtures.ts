@@ -1,4 +1,4 @@
-import { API_BASE } from "./auth";
+import { WORLDCUP_API_BASE } from "./auth";
 
 /**
  * WcFixture matches the shape returned by GET /api/wc/fixtures.
@@ -36,7 +36,7 @@ export interface WcFixture {
  * Returns full tournament schedule with BD times and live scores.
  */
 export async function fetchAllFixtures(): Promise<WcFixture[]> {
-  const res = await fetch(`${API_BASE}/wc/fixtures`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/wc/fixtures`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();
@@ -48,7 +48,7 @@ export async function fetchAllFixtures(): Promise<WcFixture[]> {
  * Fetch today's fixtures in BD time.
  */
 export async function fetchTodayFixtures(): Promise<WcFixture[]> {
-  const res = await fetch(`${API_BASE}/wc/fixtures/today`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/wc/fixtures/today`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();
@@ -61,7 +61,7 @@ export async function fetchTodayFixtures(): Promise<WcFixture[]> {
  * Fetch currently live fixtures (status = 'live').
  */
 export async function fetchLiveFixtures(): Promise<WcFixture[]> {
-  const res = await fetch(`${API_BASE}/wc/fixtures/live`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/wc/fixtures/live`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();
@@ -73,7 +73,7 @@ export async function fetchLiveFixtures(): Promise<WcFixture[]> {
  * Fetch a single fixture with post-match stats.
  */
 export async function fetchFixtureById(id: number): Promise<WcFixture> {
-  const res = await fetch(`${API_BASE}/wc/fixtures/${id}`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/wc/fixtures/${id}`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();

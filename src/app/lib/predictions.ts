@@ -1,4 +1,4 @@
-import { getToken, API_BASE } from "./auth";
+import { getToken, API_BASE, WORLDCUP_API_BASE } from "./auth";
 import type { Match } from "./matches";
 import { matchKey } from "./matches";
 
@@ -70,7 +70,7 @@ export async function submitPrediction(
 }
 
 export async function fetchMatchResults(): Promise<MatchResult[]> {
-  const res = await fetch(`${API_BASE}/match-results`, {
+  const res = await fetch(`${WORLDCUP_API_BASE}/match-results`, {
     headers: { Accept: "application/json" },
   });
   const data = await res.json();
