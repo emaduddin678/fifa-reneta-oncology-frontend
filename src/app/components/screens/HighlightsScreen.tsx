@@ -5,10 +5,7 @@ import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Flame, TrendingUp, Target, Star, Play } from "lucide-react";
 import PremiumBackground from "../PremiumBackground";
-
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ??
-  "https://api-football.cancercare.pro/api";
+import { API_BASE } from "@/app/lib/auth";
 
 // Derive backend origin to fix relative video URLs (e.g. /storage/highlights/...)
 const BACKEND_ORIGIN = API_BASE.replace(/\/api\/?$/, "");

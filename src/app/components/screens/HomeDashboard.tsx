@@ -49,12 +49,12 @@ export default function HomeDashboard() {
       subtitle: "Predict match results",
       route: "/predict",
     },
-    {
-      icon: Flame,
-      label: "HIGHLIGHTS",
-      subtitle: "Latest match clips",
-      route: "/highlights",
-    },
+    // {
+    //   icon: Flame,
+    //   label: "HIGHLIGHTS",
+    //   subtitle: "Latest match clips",
+    //   route: "/highlights",
+    // },
     {
       icon: BadgeHelp,
       label: "TRIVIA QUIZ",

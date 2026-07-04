@@ -46,10 +46,10 @@ export function clearAuth(): void {
 
 export const API_BASE =
   import.meta.env.VITE_API_BASE_URL ??
-  "https://api-football.cancercare.pro/api";
+  "https://backend.cancercareworldcup.com/api";
 export const API_BASE_NOAPI =
   import.meta.env.VITE_API_BASE_URL_NOAPI ??
-  "https://api-football.cancercare.pro/";
+  "https://backend.cancercareworldcup.com/";
 
 // The Cancer Care social site — owns accounts/passwords and provides SSO.
 export const CANCERCARE_URL =
