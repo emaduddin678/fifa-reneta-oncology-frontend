@@ -1,6 +1,4 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
-import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
-import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -19,19 +17,6 @@ import {
 import { toast } from "sonner";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { logoutDoctor } from "@/app/lib/auth";
-
-function withAlpha(color: string, alpha: number): string {
-  if (color.startsWith("#")) {
-    const r = parseInt(color.slice(1, 3), 16);
-    const g = parseInt(color.slice(3, 5), 16);
-    const b = parseInt(color.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
-  return color.replace(
-    /rgba\(([^,]+),([^,]+),([^,]+),[^)]+\)/,
-    `rgba($1,$2,$3,${alpha})`,
-  );
-}
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
@@ -57,49 +42,42 @@ export default function HomeDashboard() {
       subtitle: "Watch the match live",
       route: "",
       featured: true,
-      iconColor: "#1E90FF",
     },
     {
       icon: Crosshair,
       label: "PREDICTION",
       subtitle: "Predict match results",
       route: "/predict",
-      iconColor: "#1E90FF",
     },
     {
       icon: Flame,
       label: "HIGHLIGHTS",
       subtitle: "Latest match clips",
       route: "/highlights",
-      iconColor: "rgba(255,255,255,0.6)",
     },
     {
       icon: BadgeHelp,
       label: "TRIVIA QUIZ",
       subtitle: "Test your knowledge",
       route: "/quiz",
-      iconColor: "rgba(255,255,255,0.6)",
     },
     {
       icon: Gamepad2,
       label: "MINI GAME",
       subtitle: "Play & earn points",
       route: "/game",
-      iconColor: "rgba(255,255,255,0.6)",
     },
     {
       icon: TrendingUp,
       label: "LEADERBOARD",
       subtitle: "Top performers",
       route: "/leaderboard",
-      iconColor: "#FFD700",
     },
     {
       icon: CalendarDays,
       label: "FIXTURE",
       subtitle: "Match schedule",
       route: "/fixture",
-      iconColor: "rgba(255,255,255,0.6)",
     },
   ];
 
@@ -115,63 +93,42 @@ export default function HomeDashboard() {
         className="
         h-[100dvh] flex flex-col
         sm:h-auto sm:min-h-screen sm:block
-        relative overflow-hidden bg-[#0A0E1A]
+        relative overflow-hidden
       "
       >
-        {/* Background */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          {/* Background — pre-composited stadium/brushstroke/silhouette artwork */}
-          <div
-            className="absolute inset-0 z-0 sm:hidden"
-            style={{
-              backgroundImage: `url(${bgMobile})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-          <div
-            className="absolute inset-0 z-0 hidden sm:block"
-            style={{
-              backgroundImage: `url(${bgDesktop})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        </div>
-
         {/* Logout Confirmation Modal */}
         {showLogoutModal && (
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center p-6"
             onClick={() => setShowLogoutModal(false)}
           >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
             <div
-              className="relative z-10 w-full max-w-[320px] bg-[#0D1526] border border-white/10 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+              className="relative z-10 w-full max-w-[320px] bg-white/95 border border-black/15 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)]"
               style={{
                 animation:
                   "modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards",
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-14 h-14 rounded-2xl bg-[#CC2936]/10 border border-[#CC2936]/20 flex items-center justify-center mx-auto mb-4">
-                <LogOut className="w-7 h-7 text-[#CC2936]" />
+              <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-4">
+                <LogOut className="w-7 h-7 text-red-500" />
               </div>
-              <h2 className="text-white font-bold text-lg text-center mb-1">
+              <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
                 Sign out?
               </h2>
-              <p className="text-white/40 text-sm text-center mb-6">
+              <p className="text-[#1A1A2E]/50 text-sm text-center mb-6">
                 You'll need to sign back in to access the festival.
               </p>
               <button
                 onClick={handleLogout}
-                className="cursor-pointer w-full bg-[#CC2936]/90 hover:bg-[#CC2936] text-white font-bold text-sm py-3 rounded-2xl mb-3 transition-colors"
+                className="cursor-pointer w-full bg-red-500 hover:bg-red-600 text-white font-bold text-sm py-3 rounded-2xl mb-3 transition-colors"
               >
                 Yes, sign out
               </button>
               <button
                 onClick={() => setShowLogoutModal(false)}
-                className="cursor-pointer w-full bg-white/5 hover:bg-white/10 text-white/60 font-semibold text-sm py-3 rounded-2xl transition-colors"
+                className="cursor-pointer w-full bg-gray-100 hover:bg-gray-200 text-[#1A1A2E]/70 font-semibold text-sm py-3 rounded-2xl transition-colors"
               >
                 Cancel
               </button>
@@ -185,9 +142,9 @@ export default function HomeDashboard() {
             className="fixed inset-0 z-[100] flex items-center justify-center p-6"
             onClick={() => setShowCouponModal(false)}
           >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
             <div
-              className="relative z-10 w-full max-w-[340px] bg-[#0D1526] border border-white/10 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+              className="relative z-10 w-full max-w-[340px] bg-white/95 border border-black/15 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)]"
               style={{
                 animation:
                   "modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards",
@@ -197,25 +154,25 @@ export default function HomeDashboard() {
               <div className="w-14 h-14 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/20 flex items-center justify-center mx-auto mb-4">
                 <Gift className="w-7 h-7 text-[#1E90FF]" />
               </div>
-              <h2 className="text-white font-bold text-lg text-center mb-1">
+              <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
                 Win a Free Toffee Live Coupon
               </h2>
-              <p className="text-white/40 text-sm text-center mb-5">
+              <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
                 Every match day, the top 100 players on the leaderboard receive
                 a free Toffee Live coupon code to stream the FIFA World Cup
                 live.
               </p>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 space-y-3">
+              <div className="bg-gray-50 border border-black/10 rounded-2xl p-4 mb-5 space-y-3">
                 <div className="flex items-start gap-3">
-                  <Trophy className="w-4 h-4 text-[#FFD700] flex-shrink-0 mt-0.5" />
-                  <span className="text-white/70 text-xs">
+                  <Trophy className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-[#1A1A2E]/70 text-xs">
                     Rankings are based on your combined Trivia Quiz and Mini
                     Game scores.
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
                   <Gift className="w-4 h-4 text-[#1E90FF] flex-shrink-0 mt-0.5" />
-                  <span className="text-white/70 text-xs">
+                  <span className="text-[#1A1A2E]/70 text-xs">
                     Top 100 finishers get notified here with their coupon code,
                     free to redeem on Toffee Live.
                   </span>
@@ -242,7 +199,7 @@ export default function HomeDashboard() {
         >
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="cursor-pointer absolute top-4 right-4 flex items-center gap-1 text-white/40 text-xs underline active:text-white/60 transition-colors"
+            className="cursor-pointer absolute top-4 right-4 flex items-center gap-1 text-[#1A1A2E]/40 text-xs underline active:text-[#1A1A2E]/70 transition-colors"
           >
             <LogOut className="w-3 h-3" />
             Sign out
@@ -257,7 +214,7 @@ export default function HomeDashboard() {
             />
           </div>
 
-          <div className="text-[10px] tracking-widest font-bold text-[#FFD700] bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-full px-4 py-1">
+          <div className="text-[10px] tracking-widest font-bold text-amber-600 bg-amber-50 border border-amber-300 rounded-full px-4 py-1">
             FIFA WORLD CUP FESTIVAL 2026
           </div>
         </div>
@@ -298,13 +255,13 @@ export default function HomeDashboard() {
                     style={tileStyle}
                     className="cursor-pointer py-2
                       col-span-2
-                      bg-gradient-to-r from-[#1E3A8A]/60 to-[#1E90FF]/20
-                      border border-[#1E90FF]/40 rounded-2xl
+                      bg-gradient-to-r from-[#1E90FF]/15 to-[#0066CC]/10
+                      border-2 border-[#1E90FF] rounded-2xl
                       flex items-center gap-4 px-4
                       sm:min-h-[90px]
                       transition-all duration-150
-                      hover:border-[#1E90FF]/80 hover:from-[#1E3A8A]/80 hover:to-[#1E90FF]/35
-                      hover:shadow-[0_0_24px_rgba(30,144,255,0.35)]
+                      hover:from-[#1E90FF]/25 hover:to-[#0066CC]/15
+                      hover:shadow-[0_4px_20px_rgba(30,144,255,0.25)]
                       active:scale-[0.97]
                     "
                   >
@@ -313,10 +270,10 @@ export default function HomeDashboard() {
                       strokeWidth={2}
                     />
                     <div className="flex-1 text-left">
-                      <div className="text-sm sm:text-base font-black text-white tracking-wide leading-tight uppercase">
+                      <div className="text-sm sm:text-base font-black text-[#1A1A2E] tracking-wide leading-tight uppercase">
                         Win a Free Toffee Live Coupon
                       </div>
-                      <div className="text-xs text-white/50">
+                      <div className="text-xs text-[#1A1A2E]/50">
                         Top 100 players get rewarded
                       </div>
                     </div>
@@ -333,10 +290,10 @@ export default function HomeDashboard() {
                   style={tileStyle}
                   className="
                     cursor-pointer
-                    bg-[#0D1526] border border-white/[0.07] rounded-2xl
+                    bg-white/95 border-2 border-[#1E90FF] rounded-2xl
                     transition-all duration-150
-                    hover:bg-[#141D33] hover:border-white/20
-                    hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]
+                    hover:bg-blue-50/60
+                    hover:shadow-[0_4px_20px_rgba(30,144,255,0.2)]
                     active:scale-[0.97]
 
                     /* MOBILE: icon top-left, text below — full width, no truncation */
@@ -347,15 +304,9 @@ export default function HomeDashboard() {
                   "
                 >
                   {/* Icon pill */}
-                  <div
-                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{
-                      backgroundColor: withAlpha(action.iconColor, 0.1),
-                    }}
-                  >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#1E90FF]/10 border border-[#1E90FF]/30">
                     <action.icon
-                      className="w-4 h-4 sm:w-5 sm:h-5"
-                      style={{ color: action.iconColor }}
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-[#1E90FF]"
                       strokeWidth={2}
                     />
                   </div>
@@ -364,7 +315,7 @@ export default function HomeDashboard() {
                   <div className="flex-1 text-left w-full">
                     <div
                       className="
-                      font-bold text-white tracking-wide uppercase leading-tight
+                      font-bold text-[#1A1A2E] tracking-wide uppercase leading-tight
                       text-[10px] sm:text-sm
                     "
                     >
@@ -372,7 +323,7 @@ export default function HomeDashboard() {
                     </div>
                     <div
                       className="
-                      text-white/40 font-normal leading-tight mt-0.5
+                      text-[#1A1A2E]/50 font-normal leading-tight mt-0.5
                       text-[9px] sm:text-[11px]
                     "
                     >
@@ -381,7 +332,7 @@ export default function HomeDashboard() {
                   </div>
 
                   {/* Chevron: desktop only */}
-                  <ChevronRight className="hidden sm:block w-4 h-4 text-white/20 flex-shrink-0" />
+                  <ChevronRight className="hidden sm:block w-4 h-4 text-[#1A1A2E]/25 flex-shrink-0" />
                 </button>
               );
             })}
@@ -389,7 +340,7 @@ export default function HomeDashboard() {
         </div>
 
         {/* Footer */}
-        <div className="relative z-10 text-center text-white/15 text-[9px] tracking-wider py-2 flex-shrink-0">
+        <div className="relative z-10 text-center text-[#1A1A2E]/30 text-[9px] tracking-wider py-2 flex-shrink-0">
           RENATA ONCOLOGY · FIFA WORLD CUP FESTIVAL 2026
         </div>
       </div>
