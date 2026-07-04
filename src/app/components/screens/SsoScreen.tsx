@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { toast } from "sonner";
-import { exchangeSsoCode, markSsoAttempted, setAuth } from "@/app/lib/auth";
+import { exchangeSsoCode, setAuth } from "@/app/lib/auth";
 
 /**
  * SSO landing page. cancercare.pro redirects a logged-in user here with a
@@ -19,7 +19,6 @@ export default function SsoScreen() {
     if (started.current) return;
     started.current = true;
 
-    markSsoAttempted();
     const code = searchParams.get("code");
 
     if (!code) {

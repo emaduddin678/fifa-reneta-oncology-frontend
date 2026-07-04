@@ -1,11 +1,10 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
 import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
 import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
-import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
-import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChevronRight } from "lucide-react";
+import { getToken, redirectToCancerCareSso } from "@/app/lib/auth";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 export default function SplashScreen() {
@@ -20,7 +19,15 @@ export default function SplashScreen() {
 
   function handleEnter() {
     setExiting(true);
-    setTimeout(() => navigate("/login"), 380);
+    setTimeout(() => {
+      // Already signed in → straight to the game. Otherwise all sign-in
+      // happens on cancercare.pro (the game has no login page of its own).
+      if (getToken()) {
+        navigate("/home");
+      } else {
+        redirectToCancerCareSso();
+      }
+    }, 380);
   }
 
   const particles = [

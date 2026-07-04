@@ -56,21 +56,14 @@ export const CANCERCARE_URL =
   import.meta.env.VITE_CANCERCARE_URL ?? "https://cancercare.pro";
 export const CANCERCARE_SSO_URL = `${CANCERCARE_URL}/game/sso`;
 
-// Guards against SSO redirect loops: once we've tried (or the user logged
-// out on purpose), don't silently bounce to cancercare.pro again this tab.
-const SSO_ATTEMPTED_KEY = "ssoAttempted";
-
-export function hasAttemptedSso(): boolean {
-  return sessionStorage.getItem(SSO_ATTEMPTED_KEY) === "1";
-}
-
-export function markSsoAttempted(): void {
-  sessionStorage.setItem(SSO_ATTEMPTED_KEY, "1");
-}
-
-/** Full-page redirect to cancercare.pro, which bounces back with a one-time SSO code. */
+/**
+ * Full-page redirect to cancercare.pro/game/sso — the ONLY way to sign in.
+ * If the user has a Cancer Care session they bounce straight back with a
+ * one-time code; otherwise Cancer Care shows its login page first.
+ * (Loop safety: SSO failures land on /login?sso=failed, which never
+ * auto-redirects — retrying requires a click.)
+ */
 export function redirectToCancerCareSso(): void {
-  markSsoAttempted();
   window.location.replace(CANCERCARE_SSO_URL);
 }
 
@@ -131,8 +124,6 @@ export async function logoutDoctor(): Promise<void> {
     // Network error — still log out locally
   } finally {
     clearAuth();
-    // Deliberate logout: don't let the login screen silently SSO them back in.
-    markSsoAttempted();
   }
 }
 

@@ -5,7 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ToffeeCoupon from "./components/screens/ToffeeCoupon";
 
 const SplashScreen = lazy(() => import("./components/screens/SplashScreen"));
-const LoginScreen = lazy(() => import("./components/screens/LoginScreen"));
+const LoginRedirect = lazy(() => import("./components/screens/LoginRedirect"));
 const ForgotPasswordScreen = lazy(
   () => import("./components/screens/ForgotPasswordScreen"),
 );
@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
     children: [
       // Public routes
       { index: true, element: wrap(SplashScreen) },
-      { path: "login", element: wrap(LoginScreen) },
+      { path: "login", element: wrap(LoginRedirect) },
       { path: "sso", element: wrap(SsoScreen) },
       { path: "forgot-password", element: wrap(ForgotPasswordScreen) },
 
