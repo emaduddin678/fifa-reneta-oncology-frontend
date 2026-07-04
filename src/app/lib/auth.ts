@@ -51,6 +51,51 @@ export const API_BASE_NOAPI =
   import.meta.env.VITE_API_BASE_URL_NOAPI ??
   "https://api-football.cancercare.pro/";
 
+// The Cancer Care social site — owns accounts/passwords and provides SSO.
+export const CANCERCARE_URL =
+  import.meta.env.VITE_CANCERCARE_URL ?? "https://cancercare.pro";
+export const CANCERCARE_SSO_URL = `${CANCERCARE_URL}/game/sso`;
+
+// Guards against SSO redirect loops: once we've tried (or the user logged
+// out on purpose), don't silently bounce to cancercare.pro again this tab.
+const SSO_ATTEMPTED_KEY = "ssoAttempted";
+
+export function hasAttemptedSso(): boolean {
+  return sessionStorage.getItem(SSO_ATTEMPTED_KEY) === "1";
+}
+
+export function markSsoAttempted(): void {
+  sessionStorage.setItem(SSO_ATTEMPTED_KEY, "1");
+}
+
+/** Full-page redirect to cancercare.pro, which bounces back with a one-time SSO code. */
+export function redirectToCancerCareSso(): void {
+  markSsoAttempted();
+  window.location.replace(CANCERCARE_SSO_URL);
+}
+
+/** Swap a one-time SSO code (minted by cancercare.pro) for a game token. */
+export async function exchangeSsoCode(
+  code: string,
+): Promise<{ token: string; user: DoctorUser }> {
+  const res = await fetch(`${API_BASE}/sso/exchange`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ code }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message ?? "SSO sign-in failed");
+  }
+
+  return { token: data.token as string, user: data.user as DoctorUser };
+}
+
 /**
  * Central fetch wrapper. If the server returns 401 (token revoked / expired),
  * clears local auth and fires an event so the app redirects to /login.
@@ -86,6 +131,8 @@ export async function logoutDoctor(): Promise<void> {
     // Network error — still log out locally
   } finally {
     clearAuth();
+    // Deliberate logout: don't let the login screen silently SSO them back in.
+    markSsoAttempted();
   }
 }
 

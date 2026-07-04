@@ -13,6 +13,7 @@ const RegistrationScreen = lazy(
   () => import("./components/screens/RegistrationScreen"),
 );
 const HomeDashboard = lazy(() => import("./components/screens/HomeDashboard"));
+const SsoScreen = lazy(() => import("./components/screens/SsoScreen"));
 
 const HighlightsScreen = lazy(
   () => import("./components/screens/HighlightsScreen"),
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
       // Public routes
       { index: true, element: wrap(SplashScreen) },
       { path: "login", element: wrap(LoginScreen) },
+      { path: "sso", element: wrap(SsoScreen) },
       { path: "forgot-password", element: wrap(ForgotPasswordScreen) },
 
       // Authenticated but not yet registered

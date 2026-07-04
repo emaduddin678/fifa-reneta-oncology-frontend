@@ -16,7 +16,13 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
-import { loginDoctor, setAuth } from "@/app/lib/auth";
+import {
+  getToken,
+  hasAttemptedSso,
+  loginDoctor,
+  redirectToCancerCareSso,
+  setAuth,
+} from "@/app/lib/auth";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 // The Cancer Care site owns all account/password management; a password change
@@ -34,6 +40,18 @@ export default function LoginScreen() {
   const [isShaking, setIsShaking] = useState(false);
   const [visible, setVisible] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
+
+  // Silent SSO: if the user may already be logged in on cancercare.pro, bounce
+  // through its /game/sso and come back with a one-time code — no password
+  // needed. Skipped when SSO just failed (?sso=failed), was already attempted
+  // this tab session, or a game token already exists.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (getToken() || hasAttemptedSso() || params.get("sso") === "failed") {
+      return;
+    }
+    redirectToCancerCareSso();
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 50);
@@ -298,6 +316,21 @@ export default function LoginScreen() {
             )}
           </button>
         </form>
+
+        {/* SSO: reuse an existing cancercare.pro session instead of a password */}
+        <button
+          type="button"
+          onClick={() => redirectToCancerCareSso()}
+          className="cursor-pointer mt-3 flex items-center justify-center gap-2 w-full py-3 px-6 rounded-2xl text-xs font-bold tracking-wide text-[#1E90FF] border border-[#1E90FF]/40 bg-white/60 hover:bg-[#1E90FF]/10 transition-all duration-150 active:scale-[0.98]"
+          style={{
+            opacity: visible ? 1 : 0,
+            transition: "opacity 0.5s ease",
+            transitionDelay: "600ms",
+          }}
+        >
+          <ExternalLink className="w-3.5 h-3.5" />
+          Continue with Cancer Care account
+        </button>
 
         {/* Trust footer */}
         <div
