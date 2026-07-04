@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import RenataOnco from "@/imports/RenataOnco-100kb.png";
-import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
-import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Trophy, Clock, CheckCircle, History } from "lucide-react";
 import { toast } from "sonner";
-import PremiumBackground from "../PremiumBackground";
 import { matchKey, type Match } from "@/app/lib/matches";
 import { fetchAllFixtures, wcFixtureToMatch } from "@/app/lib/fixtures";
 import {
@@ -77,12 +73,12 @@ function ScoreStepper({
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="text-white/30 text-[10px] uppercase tracking-widest">
+      <span className="text-[#1A1A2E]/40 text-[10px] uppercase tracking-widest">
         {label}
       </span>
       <button
         onClick={() => handleClick(1)}
-        className={`w-9 h-9 rounded-xl bg-white/[0.07] border border-white/10 text-white/60 active:scale-95 transition-all text-lg font-black flex items-center justify-center ${incrementHover}`}
+        className={`w-9 h-9 rounded-xl bg-black/5 border border-black/10 text-[#1A1A2E]/60 active:scale-95 transition-all text-lg font-black flex items-center justify-center ${incrementHover}`}
       >
         +
       </button>
@@ -93,7 +89,7 @@ function ScoreStepper({
       </div>
       <button
         onClick={() => handleClick(-1)}
-        className="w-9 h-9 rounded-xl bg-white/[0.07] border border-white/10 text-white/60 hover:bg-red-500/10 hover:border-red-400/30 hover:text-red-400 active:scale-95 transition-all text-lg font-black flex items-center justify-center"
+        className="w-9 h-9 rounded-xl bg-black/5 border border-black/10 text-[#1A1A2E]/60 hover:bg-red-500/10 hover:border-red-400/30 hover:text-red-500 active:scale-95 transition-all text-lg font-black flex items-center justify-center"
       >
         −
       </button>
@@ -142,18 +138,18 @@ function MatchPredictionCard({
 
   return (
     <div
-      className={`bg-[#0D1526] border rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.4)] ${
-        submitted ? "border-[#34D399]/25" : "border-white/[0.08]"
+      className={`bg-white/95 border rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] ${
+        submitted ? "border-[#34D399]/30" : "border-black/15"
       }`}
     >
       {/* Stage + kickoff time strip */}
-      <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-white/[0.05]">
+      <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-black/10">
         <div className="bg-[#34D399]/10 border border-[#34D399]/20 rounded-full px-2.5 py-0.5">
           <span className="text-[#34D399] text-[9px] font-black tracking-widest uppercase">
             {match.group}
           </span>
         </div>
-        <div className="flex items-center gap-1 text-white/30">
+        <div className="flex items-center gap-1 text-[#1A1A2E]/40">
           <Clock className="w-3 h-3" />
           <span className="text-[10px] font-medium">{match.time} BST</span>
         </div>
@@ -165,21 +161,21 @@ function MatchPredictionCard({
           <img
             src={match.homeFlag}
             alt={match.homeName}
-            className="w-6 h-4 rounded-sm object-cover border border-white/10 flex-shrink-0"
+            className="w-6 h-4 rounded-sm object-cover border border-black/10 flex-shrink-0"
           />
-          <span className="text-white font-bold text-sm truncate">
+          <span className="text-[#1A1A2E] font-bold text-sm truncate">
             {match.homeName}
           </span>
         </div>
-        <span className="text-white/20 text-xs font-black px-3">VS</span>
+        <span className="text-[#1A1A2E]/30 text-xs font-black px-3">VS</span>
         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-          <span className="text-white font-bold text-sm truncate text-right">
+          <span className="text-[#1A1A2E] font-bold text-sm truncate text-right">
             {match.awayName}
           </span>
           <img
             src={match.awayFlag}
             alt={match.awayName}
-            className="w-6 h-4 rounded-sm object-cover border border-white/10 flex-shrink-0"
+            className="w-6 h-4 rounded-sm object-cover border border-black/10 flex-shrink-0"
           />
         </div>
       </div>
@@ -193,7 +189,7 @@ function MatchPredictionCard({
                 {existingPrediction.home_score}
               </span>
             </div>
-            <span className="text-white/20 text-xl font-black">–</span>
+            <span className="text-[#1A1A2E]/30 text-xl font-black">–</span>
             <div className="w-14 h-14 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/30 flex items-center justify-center shadow-[0_0_20px_rgba(30,144,255,0.1)]">
               <span className="text-[#1E90FF] font-black text-2xl">
                 {existingPrediction.away_score}
@@ -218,8 +214,8 @@ function MatchPredictionCard({
               accent="green"
             />
             <div className="flex flex-col items-center gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
+              <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
             </div>
             <ScoreStepper
               label={match.awayName}
@@ -296,49 +292,26 @@ export default function PredictionScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E1A] relative pb-12">
-      {/* Background — matches HomeDashboard */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div
-          className="absolute inset-0 z-0 sm:hidden"
-          style={{
-            backgroundImage: `url(${bgMobile})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div
-          className="absolute inset-0 z-0 hidden sm:block"
-          style={{
-            backgroundImage: `url(${bgDesktop})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      </div>
-      <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
-        <PremiumBackground />
-      </div>
-
+    <div className="min-h-screen pb-12">
       {/* Header */}
-      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0A0E1A]/80 backdrop-blur-md border-b border-white/[0.07]">
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3 bg-white/95 backdrop-blur-md border-b border-black/15">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white/70 hover:text-white active:scale-95 transition-all"
+          className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/5 border border-black/10 text-[#1A1A2E]/70 hover:text-[#1A1A2E] active:scale-95 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-2">
           <div className="w-1 h-4 bg-[#34D399] rounded-full" />
-          <span className="text-sm font-black text-white tracking-widest uppercase">
+          <span className="text-sm font-black text-[#1A1A2E] tracking-widest uppercase">
             Predictions
           </span>
           <div className="w-1 h-4 bg-[#34D399] rounded-full" />
         </div>
 
-        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#FFD700]/10 border border-[#FFD700]/20">
-          <Trophy className="w-4 h-4 text-[#FFD700]" />
+        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#FFD700]/15 border border-[#FFD700]/30">
+          <Trophy className="w-4 h-4 text-[#B8860B]" />
         </div>
       </div>
 
@@ -348,13 +321,13 @@ export default function PredictionScreen() {
             {Array.from({ length: 2 }).map((_, i) => (
               <div
                 key={i}
-                className="mx-4 sm:mx-6 bg-[#0D1526] border border-white/[0.06] rounded-2xl p-4 animate-pulse"
+                className="mx-4 sm:mx-6 bg-white/95 border border-black/15 rounded-2xl p-4 animate-pulse"
               >
-                <div className="h-3 bg-white/[0.06] rounded w-1/3 mb-3" />
-                <div className="h-8 bg-white/[0.06] rounded mb-3" />
+                <div className="h-3 bg-black/5 rounded w-1/3 mb-3" />
+                <div className="h-8 bg-black/5 rounded mb-3" />
                 <div className="flex justify-center gap-8">
-                  <div className="w-14 h-14 bg-white/[0.06] rounded-2xl" />
-                  <div className="w-14 h-14 bg-white/[0.06] rounded-2xl" />
+                  <div className="w-14 h-14 bg-black/5 rounded-2xl" />
+                  <div className="w-14 h-14 bg-black/5 rounded-2xl" />
                 </div>
               </div>
             ))}
@@ -367,10 +340,10 @@ export default function PredictionScreen() {
                 <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
                   <div className="w-1 h-5 bg-[#34D399] rounded-full" />
                   <div>
-                    <h2 className="text-white font-black text-base tracking-tight">
+                    <h2 className="text-[#1A1A2E] font-black text-base tracking-tight">
                       Today's Matches
                     </h2>
-                    <p className="text-white/30 text-[10px] font-medium mt-0.5">
+                    <p className="text-[#1A1A2E]/40 text-[10px] font-medium mt-0.5">
                       {today}
                     </p>
                   </div>
@@ -397,17 +370,17 @@ export default function PredictionScreen() {
                 <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
                   <div className="w-1 h-5 bg-[#1E90FF] rounded-full" />
                   <div>
-                    <h2 className="text-white font-black text-base tracking-tight">
+                    <h2 className="text-[#1A1A2E] font-black text-base tracking-tight">
                       Upcoming Matches
                     </h2>
-                    <p className="text-white/30 text-[10px] font-medium mt-0.5">
+                    <p className="text-[#1A1A2E]/40 text-[10px] font-medium mt-0.5">
                       {nextDate} — predict before kickoff!
                     </p>
                   </div>
                 </div>
                 {nextMatches.length === 0 ? (
-                  <div className="mx-4 sm:mx-6 py-8 text-center bg-[#0D1526] border border-white/[0.07] rounded-2xl">
-                    <p className="text-white/20 text-sm">
+                  <div className="mx-4 sm:mx-6 py-8 text-center bg-white/95 border border-black/15 rounded-2xl">
+                    <p className="text-[#1A1A2E]/30 text-sm">
                       No matches scheduled.
                     </p>
                   </div>
@@ -435,8 +408,8 @@ export default function PredictionScreen() {
                 <div className="flex items-center gap-3 px-4 sm:px-6 mb-3">
                   <div className="w-1 h-5 bg-[#FFD700] rounded-full" />
                   <div className="flex items-center gap-1.5">
-                    <History className="w-4 h-4 text-white/40" />
-                    <h2 className="text-white font-black text-base tracking-tight">
+                    <History className="w-4 h-4 text-[#1A1A2E]/40" />
+                    <h2 className="text-[#1A1A2E] font-black text-base tracking-tight">
                       My Predictions
                     </h2>
                   </div>
@@ -462,7 +435,7 @@ export default function PredictionScreen() {
                           className={`mx-4 sm:mx-6 rounded-xl px-4 py-3 flex items-center gap-3 transition-colors ${
                             isWin
                               ? "bg-[#FFD700]/[0.08] border border-[#FFD700]/30"
-                              : "bg-[#0D1526] border border-white/[0.07] hover:bg-white/[0.04]"
+                              : "bg-white/95 border border-black/15 hover:bg-black/[0.02]"
                           }`}
                         >
                           <div className="flex items-center gap-1 flex-shrink-0">
@@ -470,23 +443,23 @@ export default function PredictionScreen() {
                               <img
                                 src={p.home_flag}
                                 alt={p.home_team}
-                                className="w-5 h-3.5 rounded-sm object-cover border border-white/10"
+                                className="w-5 h-3.5 rounded-sm object-cover border border-black/10"
                               />
                             )}
                             {p.away_flag && (
                               <img
                                 src={p.away_flag}
                                 alt={p.away_team}
-                                className="w-5 h-3.5 rounded-sm object-cover border border-white/10"
+                                className="w-5 h-3.5 rounded-sm object-cover border border-black/10"
                               />
                             )}
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <p className="text-white/80 text-xs sm:text-sm font-semibold truncate">
+                            <p className="text-[#1A1A2E]/80 text-xs sm:text-sm font-semibold truncate">
                               {p.home_team} vs {p.away_team}
                             </p>
-                            <p className="text-white/30 text-[10px] sm:text-xs mt-0.5">
+                            <p className="text-[#1A1A2E]/40 text-[10px] sm:text-xs mt-0.5">
                               {p.match_date.slice(0, 10)}
                               {p.match_time ? ` · ${p.match_time} BST` : ""}
                             </p>
@@ -505,7 +478,7 @@ export default function PredictionScreen() {
                           >
                             <span
                               className={`font-black text-xs ${
-                                isWin ? "text-[#FFD700]" : "text-[#1E90FF]"
+                                isWin ? "text-[#B8860B]" : "text-[#1E90FF]"
                               }`}
                             >
                               {p.home_score} – {p.away_score}

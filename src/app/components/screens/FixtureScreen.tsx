@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 
-import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
-import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import {
   ArrowLeft,
@@ -13,7 +11,6 @@ import {
   Loader2,
   X,
 } from "lucide-react";
-import PremiumBackground from "../PremiumBackground";
 import { fetchAllFixtures, type WcFixture } from "@/app/lib/fixtures";
 import FixtureDetailDrawer from "./FixtureDetailDrawer";
 
@@ -117,43 +114,20 @@ export default function FixtureScreen() {
   const sortedDates = Object.keys(groupedByDate).sort();
 
   return (
-    <div className="min-h-screen pb-8 relative bg-[#0A0E1A]">
-      {/* Background — matches HomeDashboard */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div
-          className="absolute inset-0 z-0 sm:hidden"
-          style={{
-            backgroundImage: `url(${bgMobile})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div
-          className="absolute inset-0 z-0 hidden sm:block"
-          style={{
-            backgroundImage: `url(${bgDesktop})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      </div>
-      <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
-        <PremiumBackground />
-      </div>
-
+    <div className="min-h-screen pb-8">
       {/* Header — stays pinned on scroll, filters live inside it */}
-      <div className="sticky top-0 z-20 bg-[#0A0E1A]/80 backdrop-blur-md border-b border-white/[0.07]">
+      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-black/15">
         <div className="flex items-center justify-between px-4 sm:px-6 py-3">
           <button
             onClick={() => navigate("/home")}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.06] border border-white/10 text-white/70 hover:text-white hover:bg-white/10 active:scale-95 transition-all"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/5 border border-black/10 text-[#1A1A2E]/70 hover:text-[#1A1A2E] hover:bg-black/10 active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2">
             <div className="w-1 h-4 bg-[#1E90FF] rounded-full" />
-            <h1 className="text-sm font-black text-white tracking-widest uppercase">
+            <h1 className="text-sm font-black text-[#1A1A2E] tracking-widest uppercase">
               Fixture
             </h1>
             <div className="w-1 h-4 bg-[#1E90FF] rounded-full" />
@@ -165,45 +139,45 @@ export default function FixtureScreen() {
         {/* Filters */}
         <div className="flex items-center gap-2 px-4 sm:px-6 pb-3 max-w-2xl mx-auto">
           <div className="relative flex-1">
-            <Globe className="w-3.5 h-3.5 text-white/40 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Globe className="w-3.5 h-3.5 text-[#1A1A2E]/40 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <select
               value={countryFilter}
               onChange={(e) => setCountryFilter(e.target.value)}
-              className="w-full appearance-none bg-white/[0.06] border border-white/10 rounded-full pl-8 pr-7 py-2 text-[11px] font-semibold text-white/80 truncate focus:outline-none focus:border-[#1E90FF]/50 focus:ring-2 focus:ring-[#1E90FF]/15"
+              className="w-full appearance-none bg-black/5 border border-black/10 rounded-full pl-8 pr-7 py-2 text-[11px] font-semibold text-[#1A1A2E]/80 truncate focus:outline-none focus:border-[#1E90FF]/50 focus:ring-2 focus:ring-[#1E90FF]/15"
             >
-              <option value="all" className="bg-[#0D1526] text-white">
+              <option value="all" className="bg-white text-[#1A1A2E]">
                 All Countries
               </option>
               {countryOptions.map((c) => (
                 <option
                   key={c.code}
                   value={c.code}
-                  className="bg-[#0D1526] text-white"
+                  className="bg-white text-[#1A1A2E]"
                 >
                   {c.name}
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-white/30 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#1A1A2E]/30 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           <div className="relative flex-1">
-            <CalendarDays className="w-3.5 h-3.5 text-white/40 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <CalendarDays className="w-3.5 h-3.5 text-[#1A1A2E]/40 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full appearance-none bg-white/[0.06] border border-white/10 rounded-full pl-8 pr-7 py-2 text-[11px] font-semibold text-white/80 truncate focus:outline-none focus:border-[#1E90FF]/50 focus:ring-2 focus:ring-[#1E90FF]/15"
+              className="w-full appearance-none bg-black/5 border border-black/10 rounded-full pl-8 pr-7 py-2 text-[11px] font-semibold text-[#1A1A2E]/80 truncate focus:outline-none focus:border-[#1E90FF]/50 focus:ring-2 focus:ring-[#1E90FF]/15"
             >
-              <option value="all" className="bg-[#0D1526] text-white">
+              <option value="all" className="bg-white text-[#1A1A2E]">
                 All Dates
               </option>
               {allSortedDates.map((d) => (
-                <option key={d} value={d} className="bg-[#0D1526] text-white">
+                <option key={d} value={d} className="bg-white text-[#1A1A2E]">
                   {allGroupedByDate[d].label}
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-3.5 h-3.5 text-white/30 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#1A1A2E]/30 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           {hasActiveFilters && (
@@ -212,7 +186,7 @@ export default function FixtureScreen() {
                 setCountryFilter("all");
                 setDateFilter("all");
               }}
-              className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-white/[0.06] border border-white/10 text-white/50 hover:text-white hover:bg-white/10 active:scale-95 transition-all"
+              className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-black/5 border border-black/10 text-[#1A1A2E]/50 hover:text-[#1A1A2E] hover:bg-black/10 active:scale-95 transition-all"
               title="Clear filters"
             >
               <X className="w-3.5 h-3.5" />
@@ -225,7 +199,7 @@ export default function FixtureScreen() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-24 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-[#1E90FF]" />
-            <span className="text-white/40 text-xs tracking-widest uppercase">
+            <span className="text-[#1A1A2E]/40 text-xs tracking-widest uppercase">
               Loading fixtures...
             </span>
           </div>
@@ -233,13 +207,13 @@ export default function FixtureScreen() {
 
         {error && (
           <div className="flex flex-col items-center justify-center py-24 gap-2">
-            <span className="text-white/30 text-sm">{error}</span>
+            <span className="text-[#1A1A2E]/40 text-sm">{error}</span>
           </div>
         )}
 
         {!loading && !error && sortedDates.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 gap-3">
-            <span className="text-white/40 text-sm text-center">
+            <span className="text-[#1A1A2E]/50 text-sm text-center">
               No matches found for the selected filters.
             </span>
             <button
@@ -271,7 +245,7 @@ export default function FixtureScreen() {
                   <div
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-black tracking-widest uppercase ${
                       isToday
-                        ? "bg-[#FFD700]/15 border-[#FFD700]/40 text-[#FFD700]"
+                        ? "bg-[#FFD700]/15 border-[#FFD700]/40 text-[#B8860B]"
                         : "bg-[#1E90FF]/10 border-[#1E90FF]/30 text-[#1E90FF]"
                     }`}
                   >
@@ -279,8 +253,8 @@ export default function FixtureScreen() {
                     {isToday ? "Today · " : ""}
                     {month} {day}, 2026
                   </div>
-                  <div className="flex-1 h-px bg-white/[0.08]" />
-                  <span className="text-white/30 text-[10px] font-medium">
+                  <div className="flex-1 h-px bg-black/10" />
+                  <span className="text-[#1A1A2E]/40 text-[10px] font-medium">
                     {dayFixtures.length} match
                     {dayFixtures.length !== 1 ? "es" : ""}
                   </span>
@@ -333,17 +307,17 @@ export default function FixtureScreen() {
                         onClick={() => isEffectivelyDone && openDetail(f)}
                         className={`rounded-2xl border flex items-center px-3 py-3 gap-3 transition-all duration-150 ${
                           isEffectivelyDone
-                            ? "bg-[#0D1526] border-[#34D399]/20 cursor-pointer hover:bg-[#141D33] hover:border-[#34D399]/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] active:scale-[0.985]"
+                            ? "bg-white/95 border-[#34D399]/30 cursor-pointer hover:bg-black/[0.02] hover:border-[#34D399]/50 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] active:scale-[0.985]"
                             : isLive && isHalfTime
-                              ? "bg-[#FFD700]/[0.07] border-[#FFD700]/20"
+                              ? "bg-[#FFD700]/[0.08] border-[#FFD700]/25"
                               : isLive
                                 ? "bg-[#1E90FF]/[0.08] border-[#1E90FF]/25"
-                                : "bg-[#0D1526] border-white/[0.07]"
+                                : "bg-white/95 border-black/15"
                         }`}
                       >
                         {/* Home team */}
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <div className="w-9 h-6 rounded-md overflow-hidden flex-shrink-0 border border-white/10 bg-white/[0.05]">
+                          <div className="w-9 h-6 rounded-md overflow-hidden flex-shrink-0 border border-black/10 bg-black/[0.03]">
                             <img
                               src={
                                 f.home_flag ??
@@ -357,7 +331,7 @@ export default function FixtureScreen() {
                               }}
                             />
                           </div>
-                          <span className="text-white font-bold text-xs sm:text-sm truncate">
+                          <span className="text-[#1A1A2E] font-bold text-xs sm:text-sm truncate">
                             {f.is_placeholder ? f.home_code : f.home_team}
                           </span>
                         </div>
@@ -367,20 +341,20 @@ export default function FixtureScreen() {
                           {isEffectivelyDone && f.home_score !== null ? (
                             <>
                               <div className="flex items-center gap-1">
-                                <span className="text-white font-black text-lg leading-none">
+                                <span className="text-[#1A1A2E] font-black text-lg leading-none">
                                   {f.home_score}
                                 </span>
-                                <span className="text-white/40 font-bold text-sm">
+                                <span className="text-[#1A1A2E]/40 font-bold text-sm">
                                   –
                                 </span>
-                                <span className="text-white font-black text-lg leading-none">
+                                <span className="text-[#1A1A2E] font-black text-lg leading-none">
                                   {f.away_score}
                                 </span>
                               </div>
                               <span className="text-[#34D399] text-[9px] font-bold tracking-wide uppercase">
                                 Full Time
                               </span>
-                              <span className="text-white/35 text-[9px]">
+                              <span className="text-[#1A1A2E]/40 text-[9px]">
                                 {groupLabel}
                               </span>
                               <span className="text-[#1E90FF] text-[9px] font-bold tracking-wide">
@@ -401,19 +375,19 @@ export default function FixtureScreen() {
                               </div>
                               {f.home_score !== null && (
                                 <div className="flex items-center gap-1">
-                                  <span className="text-white font-black text-base leading-none">
+                                  <span className="text-[#1A1A2E] font-black text-base leading-none">
                                     {f.home_score}
                                   </span>
-                                  <span className="text-white/60 text-sm">
+                                  <span className="text-[#1A1A2E]/60 text-sm">
                                     –
                                   </span>
-                                  <span className="text-white font-black text-base leading-none">
+                                  <span className="text-[#1A1A2E] font-black text-base leading-none">
                                     {f.away_score}
                                   </span>
                                 </div>
                               )}
                               {!isHalfTime && (
-                                <div className="flex items-center gap-0.5 text-white/50 text-[10px] font-semibold">
+                                <div className="flex items-center gap-0.5 text-[#1A1A2E]/50 text-[10px] font-semibold">
                                   <Clock className="w-2.5 h-2.5" />
                                   {f.match_time}
                                 </div>
@@ -421,14 +395,14 @@ export default function FixtureScreen() {
                             </>
                           ) : (
                             <>
-                              <span className="text-white/30 text-[11px] font-black">
+                              <span className="text-[#1A1A2E]/30 text-[11px] font-black">
                                 VS
                               </span>
-                              <div className="flex items-center gap-0.5 text-white/50 text-[10px] font-semibold">
+                              <div className="flex items-center gap-0.5 text-[#1A1A2E]/50 text-[10px] font-semibold">
                                 <Clock className="w-2.5 h-2.5" />
                                 {f.match_time}
                               </div>
-                              <span className="text-white/30 text-[9px] font-bold tracking-wide">
+                              <span className="text-[#1A1A2E]/30 text-[9px] font-bold tracking-wide">
                                 {groupLabel} · BST
                               </span>
                             </>
@@ -437,10 +411,10 @@ export default function FixtureScreen() {
 
                         {/* Away team */}
                         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-                          <span className="text-white font-bold text-xs sm:text-sm truncate text-right">
+                          <span className="text-[#1A1A2E] font-bold text-xs sm:text-sm truncate text-right">
                             {f.is_placeholder ? f.away_code : f.away_team}
                           </span>
-                          <div className="w-9 h-6 rounded-md overflow-hidden flex-shrink-0 border border-white/10 bg-white/[0.05]">
+                          <div className="w-9 h-6 rounded-md overflow-hidden flex-shrink-0 border border-black/10 bg-black/[0.03]">
                             <img
                               src={
                                 f.away_flag ??

@@ -169,28 +169,28 @@ function StatRow({
   const awayDisplay = isPct ? `${a}%` : String(a);
 
   return (
-    <div className="py-3.5 border-b border-white/8 last:border-0">
+    <div className="py-3.5 border-b border-black/10 last:border-0">
       {/* Numbers + label row */}
       <div className="flex items-center justify-between mb-2.5">
-        <span className="text-white font-black text-xl tabular-nums w-14">
+        <span className="text-[#1A1A2E] font-black text-xl tabular-nums w-14">
           {homeDisplay}
         </span>
-        <span className="text-white/45 text-[10px] font-bold uppercase tracking-wider text-center flex-1 px-2">
+        <span className="text-[#1A1A2E]/50 text-[10px] font-bold uppercase tracking-wider text-center flex-1 px-2">
           {name}
         </span>
-        <span className="text-white font-black text-xl tabular-nums w-14 text-right">
+        <span className="text-[#1A1A2E] font-black text-xl tabular-nums w-14 text-right">
           {awayDisplay}
         </span>
       </div>
 
-      {/* Proportional bar — full width, blue home / white-faded away */}
+      {/* Proportional bar — full width, blue home / faded away */}
       <div className="flex h-[5px] rounded-full overflow-hidden gap-px">
         <div
           className="h-full bg-[#1E90FF] rounded-l-full transition-all duration-500"
           style={{ width: `${homeW}%` }}
         />
         <div
-          className="h-full bg-white/30 rounded-r-full transition-all duration-500"
+          className="h-full bg-black/15 rounded-r-full transition-all duration-500"
           style={{ width: `${awayW}%` }}
         />
       </div>
@@ -227,7 +227,7 @@ function EventTimeline({
     // Check if there ARE events but they're all substitutions/untyped
     const anyEvents = events.filter((e) => !!(e.location ?? e.participant));
     return (
-      <p className="text-center text-white/30 text-sm py-8">
+      <p className="text-center text-[#1A1A2E]/40 text-sm py-8">
         {anyEvents.length > 0
           ? "No key events (goals, cards) recorded"
           : "No events recorded for this match"}
@@ -254,11 +254,11 @@ function EventTimeline({
           shownHalfTime = true;
           dividers.push(
             <div key="ht" className="flex items-center gap-3 py-2.5 my-1">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-white/30 text-[9px] font-black tracking-widest uppercase">
+              <div className="flex-1 h-px bg-black/10" />
+              <span className="text-[#1A1A2E]/40 text-[9px] font-black tracking-widest uppercase">
                 Half Time
               </span>
-              <div className="flex-1 h-px bg-white/10" />
+              <div className="flex-1 h-px bg-black/10" />
             </div>,
           );
         }
@@ -266,11 +266,11 @@ function EventTimeline({
           shownET = true;
           dividers.push(
             <div key="et" className="flex items-center gap-3 py-2.5 my-1">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-white/30 text-[9px] font-black tracking-widest uppercase">
+              <div className="flex-1 h-px bg-black/10" />
+              <span className="text-[#1A1A2E]/40 text-[9px] font-black tracking-widest uppercase">
                 Extra Time
               </span>
-              <div className="flex-1 h-px bg-white/10" />
+              <div className="flex-1 h-px bg-black/10" />
             </div>,
           );
         }
@@ -279,12 +279,12 @@ function EventTimeline({
           <div key={i}>
             {dividers}
             <div
-              className={`flex items-center gap-2.5 px-1 py-2.5 rounded-lg hover:bg-white/5 ${
+              className={`flex items-center gap-2.5 px-1 py-2.5 rounded-lg hover:bg-black/[0.03] ${
                 isHome ? "flex-row" : "flex-row-reverse"
               }`}
             >
               {/* Flag */}
-              <div className="w-7 h-5 rounded overflow-hidden border border-white/10 flex-shrink-0 bg-white/5">
+              <div className="w-7 h-5 rounded overflow-hidden border border-black/10 flex-shrink-0 bg-black/[0.03]">
                 <img
                   src={flagUrl}
                   alt={code}
@@ -303,15 +303,15 @@ function EventTimeline({
               >
                 <span className="text-base leading-none flex-shrink-0">{icon}</span>
                 <div className={`min-w-0 ${isHome ? "" : "text-right"}`}>
-                  <span className="text-white font-semibold text-sm truncate block">
+                  <span className="text-[#1A1A2E] font-semibold text-sm truncate block">
                     {e.player_name ?? "Unknown"}
-                    <span className="text-white/40 font-normal">{note}</span>
+                    <span className="text-[#1A1A2E]/40 font-normal">{note}</span>
                   </span>
                 </div>
               </div>
 
               {/* Minute */}
-              <span className="text-white/50 text-[11px] font-bold tabular-nums flex-shrink-0 w-8 text-center">
+              <span className="text-[#1A1A2E]/50 text-[11px] font-bold tabular-nums flex-shrink-0 w-8 text-center">
                 {label}
               </span>
             </div>
@@ -370,17 +370,17 @@ export default function FixtureDetailDrawer({
 
   return (
     <Drawer open={open} onOpenChange={(v) => !v && onClose()}>
-      <DrawerContent className="!bg-[#0d1b2e] border-white/10 max-h-[92vh]">
+      <DrawerContent className="!bg-white border-black/10 max-h-[92vh]">
         {/* ── Match header ── */}
-        <div className="px-5 pt-2 pb-4 border-b border-white/10">
+        <div className="px-5 pt-2 pb-4 border-b border-black/10">
           <div className="flex justify-center mb-4">
             {isLive ? (
-              <span className="flex items-center gap-1.5 bg-red-500/20 text-red-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-red-500/30">
-                <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
+              <span className="flex items-center gap-1.5 bg-red-500/10 text-red-500 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-red-500/25">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                 Live
               </span>
             ) : (
-              <span className="text-green-400 text-[10px] font-black uppercase tracking-widest">
+              <span className="text-green-500 text-[10px] font-black uppercase tracking-widest">
                 Full Time
               </span>
             )}
@@ -389,7 +389,7 @@ export default function FixtureDetailDrawer({
           <div className="flex items-center gap-3">
             {/* Home */}
             <div className="flex-1 flex flex-col items-center gap-2 min-w-0">
-              <div className="w-14 h-9 rounded overflow-hidden border border-white/15 bg-white/5 flex-shrink-0">
+              <div className="w-14 h-9 rounded overflow-hidden border border-black/10 bg-black/[0.03] flex-shrink-0">
                 <img
                   src={homeFlagUrl}
                   alt={fixture.home_team}
@@ -399,7 +399,7 @@ export default function FixtureDetailDrawer({
                   }}
                 />
               </div>
-              <span className="text-white font-bold text-xs text-center leading-tight">
+              <span className="text-[#1A1A2E] font-bold text-xs text-center leading-tight">
                 {fixture.is_placeholder ? fixture.home_code : fixture.home_team}
               </span>
             </div>
@@ -407,22 +407,22 @@ export default function FixtureDetailDrawer({
             {/* Score */}
             <div className="flex flex-col items-center flex-shrink-0">
               <div className="flex items-center gap-3">
-                <span className="text-white font-black text-4xl tabular-nums leading-none">
+                <span className="text-[#1A1A2E] font-black text-4xl tabular-nums leading-none">
                   {fixture.home_score ?? "–"}
                 </span>
-                <span className="text-white/30 font-bold text-2xl">–</span>
-                <span className="text-white font-black text-4xl tabular-nums leading-none">
+                <span className="text-[#1A1A2E]/30 font-bold text-2xl">–</span>
+                <span className="text-[#1A1A2E] font-black text-4xl tabular-nums leading-none">
                   {fixture.away_score ?? "–"}
                 </span>
               </div>
               {groupLabel && (
-                <span className="text-white/40 text-[10px] mt-1.5">{groupLabel}</span>
+                <span className="text-[#1A1A2E]/40 text-[10px] mt-1.5">{groupLabel}</span>
               )}
             </div>
 
             {/* Away */}
             <div className="flex-1 flex flex-col items-center gap-2 min-w-0">
-              <div className="w-14 h-9 rounded overflow-hidden border border-white/15 bg-white/5 flex-shrink-0">
+              <div className="w-14 h-9 rounded overflow-hidden border border-black/10 bg-black/[0.03] flex-shrink-0">
                 <img
                   src={awayFlagUrl}
                   alt={fixture.away_team}
@@ -432,7 +432,7 @@ export default function FixtureDetailDrawer({
                   }}
                 />
               </div>
-              <span className="text-white font-bold text-xs text-center leading-tight">
+              <span className="text-[#1A1A2E] font-bold text-xs text-center leading-tight">
                 {fixture.is_placeholder ? fixture.away_code : fixture.away_team}
               </span>
             </div>
@@ -440,13 +440,13 @@ export default function FixtureDetailDrawer({
         </div>
 
         {/* ── Tabs ── */}
-        <div className="flex border-b border-white/10 flex-shrink-0">
+        <div className="flex border-b border-black/10 flex-shrink-0">
           <button
             onClick={() => setTab("events")}
             className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
               tab === "events"
-                ? "text-white border-b-2 border-[#1E90FF]"
-                : "text-white/40 hover:text-white/60"
+                ? "text-[#1A1A2E] border-b-2 border-[#1E90FF]"
+                : "text-[#1A1A2E]/40 hover:text-[#1A1A2E]/60"
             }`}
           >
             <Zap className="w-3 h-3" />
@@ -456,8 +456,8 @@ export default function FixtureDetailDrawer({
             onClick={() => setTab("stats")}
             className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
               tab === "stats"
-                ? "text-white border-b-2 border-[#1E90FF]"
-                : "text-white/40 hover:text-white/60"
+                ? "text-[#1A1A2E] border-b-2 border-[#1E90FF]"
+                : "text-[#1A1A2E]/40 hover:text-[#1A1A2E]/60"
             }`}
           >
             <BarChart2 className="w-3 h-3" />
@@ -470,7 +470,7 @@ export default function FixtureDetailDrawer({
           {loading ? (
             <div className="flex flex-col items-center justify-center py-16 gap-3">
               <Loader2 className="w-6 h-6 animate-spin text-[#1E90FF]" />
-              <span className="text-white/30 text-xs">Loading match data…</span>
+              <span className="text-[#1A1A2E]/40 text-xs">Loading match data…</span>
             </div>
           ) : tab === "events" ? (
             <EventTimeline
@@ -487,7 +487,7 @@ export default function FixtureDetailDrawer({
                 <span className="text-[#1E90FF] text-[11px] font-black uppercase tracking-wider">
                   {fixture.home_code}
                 </span>
-                <span className="text-white/30 text-[11px] font-black uppercase tracking-wider">
+                <span className="text-[#1A1A2E]/40 text-[11px] font-black uppercase tracking-wider">
                   {fixture.away_code}
                 </span>
               </div>
@@ -496,7 +496,7 @@ export default function FixtureDetailDrawer({
               ))}
             </div>
           ) : (
-            <p className="text-center text-white/30 text-sm py-10">
+            <p className="text-center text-[#1A1A2E]/40 text-sm py-10">
               Statistics not available yet
             </p>
           )}
@@ -504,7 +504,7 @@ export default function FixtureDetailDrawer({
 
         {/* ── Close button ── */}
         <DrawerClose asChild>
-          <button className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white/60 hover:text-white">
+          <button className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors text-[#1A1A2E]/60 hover:text-[#1A1A2E]">
             <X className="w-4 h-4" />
           </button>
         </DrawerClose>
