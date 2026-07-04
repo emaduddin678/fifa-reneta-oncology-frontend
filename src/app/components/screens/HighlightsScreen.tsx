@@ -5,7 +5,7 @@ import PremiumBackground from "../PremiumBackground";
 
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL ??
-  "https://backend.cancercareworldcup.com/api";
+  "https://api-football.cancercare.pro/api";
 
 // Derive backend origin to fix relative video URLs (e.g. /storage/highlights/...)
 const BACKEND_ORIGIN = API_BASE.replace(/\/api\/?$/, "");
