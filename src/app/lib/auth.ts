@@ -46,10 +46,10 @@ export function clearAuth(): void {
 
 export const API_BASE =
   import.meta.env.VITE_API_BASE_URL ??
-  "https://backend.cancercareworldcup.com/api";
+  "https://api-football.cancercare.pro/api";
 export const API_BASE_NOAPI =
   import.meta.env.VITE_API_BASE_URL_NOAPI ??
-  "https://backend.cancercareworldcup.com/";
+  "https://api-football.cancercare.pro/";
 
 /**
  * Central fetch wrapper. If the server returns 401 (token revoked / expired),
