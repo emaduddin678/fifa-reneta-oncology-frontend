@@ -11,10 +11,18 @@ import {
   EyeOff,
   ChevronRight,
   AlertCircle,
+  KeyRound,
+  ExternalLink,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { loginDoctor, setAuth } from "@/app/lib/auth";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
+
+// The Cancer Care site owns all account/password management; a password change
+// there auto-syncs to this game login. Override via VITE_CANCERCARE_URL.
+const CANCERCARE_URL =
+  import.meta.env.VITE_CANCERCARE_URL ?? "https://cancercare.pro";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -25,11 +33,22 @@ export default function LoginScreen() {
   const [isError, setIsError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 50);
     return () => clearTimeout(t);
   }, []);
+
+  // Close the "forgot password" info modal on Escape.
+  useEffect(() => {
+    if (!showForgotModal) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowForgotModal(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showForgotModal]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -73,8 +92,15 @@ export default function LoginScreen() {
           60%      { transform: translateX(4px); }
           75%      { transform: translateX(-2px); }
         }
+        @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes modalIn {
+          from { opacity: 0; transform: translateY(16px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
         .cta-pulse { animation: ctaPulse 2.5s ease-out infinite; animation-delay: 1200ms; }
         .card-shake { animation: loginShake 0.5s ease-in-out; }
+        .overlay-in { animation: overlayIn 0.2s ease forwards; }
+        .modal-in { animation: modalIn 0.28s cubic-bezier(0.16,1,0.3,1) forwards; }
         .text-shadow { text-shadow: 0 1px 2px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3); }
         .text-shadow-lg { text-shadow: 0 2px 4px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35); }
         .icon-shadow { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
@@ -211,7 +237,7 @@ export default function LoginScreen() {
               </div>
               <button
                 type="button"
-                onClick={() => navigate("/forgot-password")}
+                onClick={() => setShowForgotModal(true)}
                 className=" text-xs text-linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%) font-medium hover:text-[#DED0FF] transition-colors"
               >
                 Forgot Password?
@@ -318,6 +344,91 @@ export default function LoginScreen() {
           </a>
         </p>
       </div>
+
+      {/* Forgot-password info modal — the game has no password management of its
+          own; passwords live on the Cancer Care site and auto-sync here. */}
+      {showForgotModal && (
+        <div
+          className="overlay-in fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{
+            background: "rgba(10,6,24,0.6)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+          }}
+          onClick={() => setShowForgotModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="forgot-modal-title"
+        >
+          <div
+            className="modal-in relative w-full max-w-[360px] rounded-3xl border border-white/25 p-7"
+            style={{
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(24px) saturate(1.4)",
+              WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+              boxShadow:
+                "0 24px 80px rgba(107,53,168,0.35), 0 1px 0 rgba(255,255,255,0.4) inset",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setShowForgotModal(false)}
+              aria-label="Close"
+              className="absolute right-4 top-4 text-white/40 hover:text-white/80 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Icon */}
+            <div
+              className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
+              style={{
+                background: "linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%)",
+                boxShadow: "0 8px 24px rgba(107,53,168,0.45)",
+              }}
+            >
+              <KeyRound className="w-6 h-6 text-white icon-shadow" />
+            </div>
+
+            <h2
+              id="forgot-modal-title"
+              className="text-shadow-lg text-lg font-black text-white text-center"
+            >
+              Password Managed by Cancer Care
+            </h2>
+            <p className="text-center text-[13px] leading-relaxed text-white/70 mt-2">
+              Your account and password are managed on the{" "}
+              <span className="font-semibold text-white">Cancer Care</span>{" "}
+              website. To reset or change your password, please do it there — the
+              change updates your login here automatically.
+            </p>
+
+            {/* Actions */}
+            <a
+              href={CANCERCARE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setShowForgotModal(false)}
+              className="cursor-pointer mt-5 flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-2xl text-white font-black text-xs tracking-widest uppercase transition-all duration-150 hover:brightness-110 hover:scale-[1.01] active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #7B4FCF 0%, #4F46E5 100%)",
+              }}
+            >
+              Go to Cancer Care
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowForgotModal(false)}
+              className="mt-2.5 w-full py-2.5 text-xs font-semibold text-white/50 hover:text-white/80 transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
