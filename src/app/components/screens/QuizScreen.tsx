@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
+
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
-import { ArrowLeft, Trophy, CheckCircle, XCircle, BadgeHelp } from "lucide-react";
+import {
+  ArrowLeft,
+  Trophy,
+  CheckCircle,
+  XCircle,
+  BadgeHelp,
+} from "lucide-react";
 import { toast } from "sonner";
 import PremiumBackground from "../PremiumBackground";
 import {
@@ -14,7 +23,22 @@ function ScreenBackground() {
   return (
     <>
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+        <div
+          className="absolute inset-0 z-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${bgMobile})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-0 hidden sm:block"
+          style={{
+            backgroundImage: `url(${bgDesktop})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
       <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
         <PremiumBackground />
@@ -56,7 +80,13 @@ export default function QuizScreen() {
 
   // 15-second countdown per question; -1 means timed out (shows correct answer briefly)
   useEffect(() => {
-    if (questions.length === 0 || showResult || selectedAnswer !== null || statusLoading) return;
+    if (
+      questions.length === 0 ||
+      showResult ||
+      selectedAnswer !== null ||
+      statusLoading
+    )
+      return;
 
     setTimeLeft(15);
     let remaining = 15;
@@ -88,8 +118,14 @@ export default function QuizScreen() {
     }, 1000);
 
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentQuestion, selectedAnswer, questions.length, showResult, statusLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    currentQuestion,
+    selectedAnswer,
+    questions.length,
+    showResult,
+    statusLoading,
+  ]);
 
   const handleAnswer = (index: number) => {
     setSelectedAnswer(index);
@@ -217,7 +253,9 @@ export default function QuizScreen() {
                 key={stat.label}
                 className="flex-1 bg-white/[0.05] border border-white/[0.07] rounded-2xl py-2 px-1 text-center"
               >
-                <div className="text-white font-black text-lg">{stat.value}</div>
+                <div className="text-white font-black text-lg">
+                  {stat.value}
+                </div>
                 <div className="text-white/30 text-[9px] uppercase tracking-wide">
                   {stat.label}
                 </div>
@@ -330,7 +368,9 @@ export default function QuizScreen() {
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 transform="rotate(-90 26 26)"
-                style={{ transition: "stroke-dashoffset 0.8s linear, stroke 0.4s ease" }}
+                style={{
+                  transition: "stroke-dashoffset 0.8s linear, stroke 0.4s ease",
+                }}
               />
               <text
                 x="26"
@@ -430,7 +470,9 @@ export default function QuizScreen() {
                       {letter}
                     </span>
                   </div>
-                  <span className={`text-sm sm:text-base flex-1 ${optionTextClasses}`}>
+                  <span
+                    className={`text-sm sm:text-base flex-1 ${optionTextClasses}`}
+                  >
                     {option}
                   </span>
                   {showFeedback && isCorrect && (

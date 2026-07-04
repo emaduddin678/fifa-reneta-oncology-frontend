@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import {
   ArrowLeft,
@@ -19,7 +22,9 @@ export default function FixtureScreen() {
   const [fixtures, setFixtures] = useState<WcFixture[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedFixture, setSelectedFixture] = useState<WcFixture | null>(null);
+  const [selectedFixture, setSelectedFixture] = useState<WcFixture | null>(
+    null,
+  );
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [todayKey, setTodayKey] = useState<string | null>(null);
   const [countryFilter, setCountryFilter] = useState("all");
@@ -115,7 +120,22 @@ export default function FixtureScreen() {
     <div className="min-h-screen pb-8 relative bg-[#0A0E1A]">
       {/* Background — matches HomeDashboard */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+        <div
+          className="absolute inset-0 z-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${bgMobile})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-0 hidden sm:block"
+          style={{
+            backgroundImage: `url(${bgDesktop})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
       <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
         <PremiumBackground />
@@ -155,7 +175,11 @@ export default function FixtureScreen() {
                 All Countries
               </option>
               {countryOptions.map((c) => (
-                <option key={c.code} value={c.code} className="bg-[#0D1526] text-white">
+                <option
+                  key={c.code}
+                  value={c.code}
+                  className="bg-[#0D1526] text-white"
+                >
                   {c.name}
                 </option>
               ))}

@@ -1,4 +1,6 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -118,7 +120,23 @@ export default function HomeDashboard() {
       >
         {/* Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+          {/* Background — pre-composited stadium/brushstroke/silhouette artwork */}
+          <div
+            className="absolute inset-0 z-0 sm:hidden"
+            style={{
+              backgroundImage: `url(${bgMobile})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div
+            className="absolute inset-0 z-0 hidden sm:block"
+            style={{
+              backgroundImage: `url(${bgDesktop})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
         </div>
 
         {/* Logout Confirmation Modal */}
@@ -183,9 +201,9 @@ export default function HomeDashboard() {
                 Win a Free Toffee Live Coupon
               </h2>
               <p className="text-white/40 text-sm text-center mb-5">
-                Every match day, the top 100 players on the leaderboard
-                receive a free Toffee Live coupon code to stream the FIFA
-                World Cup live.
+                Every match day, the top 100 players on the leaderboard receive
+                a free Toffee Live coupon code to stream the FIFA World Cup
+                live.
               </p>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5 space-y-3">
                 <div className="flex items-start gap-3">
@@ -198,8 +216,8 @@ export default function HomeDashboard() {
                 <div className="flex items-start gap-3">
                   <Gift className="w-4 h-4 text-[#1E90FF] flex-shrink-0 mt-0.5" />
                   <span className="text-white/70 text-xs">
-                    Top 100 finishers get notified here with their coupon
-                    code, free to redeem on Toffee Live.
+                    Top 100 finishers get notified here with their coupon code,
+                    free to redeem on Toffee Live.
                   </span>
                 </div>
               </div>

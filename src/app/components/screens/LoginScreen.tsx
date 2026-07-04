@@ -1,6 +1,8 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
 import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
 import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -401,8 +403,8 @@ export default function LoginScreen() {
             <p className="text-center text-[13px] leading-relaxed text-white/70 mt-2">
               Your account and password are managed on the{" "}
               <span className="font-semibold text-white">Cancer Care</span>{" "}
-              website. To reset or change your password, please do it there — the
-              change updates your login here automatically.
+              website. To reset or change your password, please do it there —
+              the change updates your login here automatically.
             </p>
 
             {/* Actions */}

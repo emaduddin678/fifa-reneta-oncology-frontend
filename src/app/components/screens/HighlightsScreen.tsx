@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Flame, TrendingUp, Target, Star, Play } from "lucide-react";
 import PremiumBackground from "../PremiumBackground";
@@ -57,7 +60,22 @@ export default function HighlightsScreen() {
     <div className="min-h-screen bg-[#0A0E1A] relative">
       {/* Background — matches HomeDashboard */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+        <div
+          className="absolute inset-0 z-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${bgMobile})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-0 hidden sm:block"
+          style={{
+            backgroundImage: `url(${bgDesktop})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
       <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
         <PremiumBackground />
@@ -165,7 +183,8 @@ export default function HighlightsScreen() {
                             }
                           }}
                         />
-                      ) : highlight.source_type === "upload" && highlight.video_url ? (
+                      ) : highlight.source_type === "upload" &&
+                        highlight.video_url ? (
                         // Show first frame of uploaded video as thumbnail
                         <video
                           src={
@@ -180,7 +199,10 @@ export default function HighlightsScreen() {
                         />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1526] to-[#10172A] flex items-center justify-center">
-                          <Play className="w-8 h-8 text-white/10" fill="currentColor" />
+                          <Play
+                            className="w-8 h-8 text-white/10"
+                            fill="currentColor"
+                          />
                         </div>
                       )}
                       <div

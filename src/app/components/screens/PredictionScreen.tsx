@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
+import RenataOnco from "@/imports/RenataOnco-100kb.png";
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
-import {
-  ArrowLeft,
-  Trophy,
-  Clock,
-  CheckCircle,
-  History,
-} from "lucide-react";
+import { ArrowLeft, Trophy, Clock, CheckCircle, History } from "lucide-react";
 import { toast } from "sonner";
 import PremiumBackground from "../PremiumBackground";
 import { matchKey, type Match } from "@/app/lib/matches";
@@ -265,11 +262,7 @@ export default function PredictionScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetchAllFixtures(),
-      fetchMyPredictions(),
-      fetchMatchResults(),
-    ])
+    Promise.all([fetchAllFixtures(), fetchMyPredictions(), fetchMatchResults()])
       .then(([fixtures, preds, res]) => {
         // Only include non-placeholder group stage matches for predictions
         const matches = fixtures
@@ -306,7 +299,22 @@ export default function PredictionScreen() {
     <div className="min-h-screen bg-[#0A0E1A] relative pb-12">
       {/* Background — matches HomeDashboard */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+        <div
+          className="absolute inset-0 z-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${bgMobile})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-0 hidden sm:block"
+          style={{
+            backgroundImage: `url(${bgDesktop})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
       <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
         <PremiumBackground />
@@ -399,7 +407,9 @@ export default function PredictionScreen() {
                 </div>
                 {nextMatches.length === 0 ? (
                   <div className="mx-4 sm:mx-6 py-8 text-center bg-[#0D1526] border border-white/[0.07] rounded-2xl">
-                    <p className="text-white/20 text-sm">No matches scheduled.</p>
+                    <p className="text-white/20 text-sm">
+                      No matches scheduled.
+                    </p>
                   </div>
                 ) : (
                   <div className="space-y-3 px-4 sm:px-6">

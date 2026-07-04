@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useNavigate } from "react-router";
 import {
   ArrowLeft,
@@ -158,7 +161,10 @@ function LeaderboardBoard({
                       <p className="text-white/40 text-[10px] uppercase tracking-wide mb-1">
                         {stat.label}
                       </p>
-                      <p className="font-black text-lg" style={{ color: stat.color }}>
+                      <p
+                        className="font-black text-lg"
+                        style={{ color: stat.color }}
+                      >
                         {stat.value}
                       </p>
                     </div>
@@ -184,7 +190,9 @@ function LeaderboardBoard({
                   <p className="text-white/80 font-bold text-[10px] sm:text-sm mb-0.5 truncate px-1">
                     {top3[1].name}
                   </p>
-                  <p className="text-white/50 text-[9px]">{top3[1].total} pts</p>
+                  <p className="text-white/50 text-[9px]">
+                    {top3[1].total} pts
+                  </p>
                 </div>
                 <div className="bg-gradient-to-b from-white/10 to-white/[0.03] h-16 sm:h-24 rounded-b-xl flex items-center justify-center">
                   <span className="text-2xl sm:text-3xl">🥈</span>
@@ -199,7 +207,9 @@ function LeaderboardBoard({
                       <Trophy className="w-4 h-4 sm:w-6 sm:h-6 text-[#0A0E1A]" />
                     </div>
                   </div>
-                  <div className="text-3xl sm:text-4xl mb-1 sm:mb-2 mt-2 sm:mt-4">🏆</div>
+                  <div className="text-3xl sm:text-4xl mb-1 sm:mb-2 mt-2 sm:mt-4">
+                    🏆
+                  </div>
                   <p className="text-white font-black text-xs sm:text-sm mb-0.5 truncate px-1">
                     {top3[0].name}
                   </p>
@@ -219,7 +229,9 @@ function LeaderboardBoard({
                   <p className="text-white/80 font-bold text-[10px] sm:text-sm mb-0.5 truncate px-1">
                     {top3[2].name}
                   </p>
-                  <p className="text-white/50 text-[9px]">{top3[2].total} pts</p>
+                  <p className="text-white/50 text-[9px]">
+                    {top3[2].total} pts
+                  </p>
                 </div>
                 <div className="bg-gradient-to-b from-[#F97316]/10 to-[#F97316]/[0.03] h-14 sm:h-20 rounded-b-xl flex items-center justify-center">
                   <span className="text-2xl sm:text-3xl">🥉</span>
@@ -433,7 +445,22 @@ export default function LeaderboardScreen() {
 
       {/* Background — matches HomeDashboard */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] via-[#10172A] to-[#0A0E1A]" />
+        <div
+          className="absolute inset-0 z-0 sm:hidden"
+          style={{
+            backgroundImage: `url(${bgMobile})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-0 hidden sm:block"
+          style={{
+            backgroundImage: `url(${bgDesktop})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
       <div className="opacity-[0.04] fixed inset-0 pointer-events-none z-0">
         <PremiumBackground />
@@ -475,7 +502,9 @@ export default function LeaderboardScreen() {
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
                   className={`flex-1 flex flex-col items-center gap-0.5 pt-3 pb-2 px-1 relative transition-all duration-200 ${
-                    isActive ? "text-[#FFD700]" : "text-white/30 hover:text-white/60"
+                    isActive
+                      ? "text-[#FFD700]"
+                      : "text-white/30 hover:text-white/60"
                   }`}
                 >
                   <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 mb-0.5" />

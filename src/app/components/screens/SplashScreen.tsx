@@ -1,6 +1,8 @@
 import RenataOnco from "@/imports/RenataOnco-100kb.png";
 import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
 import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
+import bgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
+import bgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChevronRight } from "lucide-react";
@@ -34,7 +36,11 @@ export default function SplashScreen() {
       className="h-[100dvh] w-full relative overflow-hidden flex flex-col"
       style={{
         opacity: exiting ? 0 : visible ? 1 : 0,
-        transform: exiting ? "scale(1.04)" : visible ? "scale(1)" : "scale(0.98)",
+        transform: exiting
+          ? "scale(1.04)"
+          : visible
+            ? "scale(1)"
+            : "scale(0.98)",
         transition: exiting
           ? "opacity 0.4s ease, transform 0.4s ease"
           : "opacity 0.5s ease, transform 0.5s ease",
@@ -64,11 +70,19 @@ export default function SplashScreen() {
       {/* Background — pre-composited stadium/brushstroke/silhouette artwork */}
       <div
         className="absolute inset-0 z-0 sm:hidden"
-        style={{ backgroundImage: `url(${bgMobile})`, backgroundSize: "cover", backgroundPosition: "center" }}
+        style={{
+          backgroundImage: `url(${bgMobile})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       />
       <div
         className="absolute inset-0 z-0 hidden sm:block"
-        style={{ backgroundImage: `url(${bgDesktop})`, backgroundSize: "cover", backgroundPosition: "center" }}
+        style={{
+          backgroundImage: `url(${bgDesktop})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       />
 
       {/* Floating particles */}
@@ -77,7 +91,11 @@ export default function SplashScreen() {
           <span
             key={i}
             className="particle absolute top-1/3 w-1.5 h-1.5 rounded-full bg-white/50"
-            style={{ left: p.left, animationDuration: p.duration, animationDelay: p.delay }}
+            style={{
+              left: p.left,
+              animationDuration: p.duration,
+              animationDelay: p.delay,
+            }}
           />
         ))}
       </div>
@@ -99,7 +117,9 @@ export default function SplashScreen() {
           className="w-[210px] sm:w-[300px] lg:w-[340px]"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "scale(1) translateY(0)" : "scale(0.92) translateY(12px)",
+            transform: visible
+              ? "scale(1) translateY(0)"
+              : "scale(0.92) translateY(12px)",
             transition:
               "opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)",
             transitionDelay: "350ms",
