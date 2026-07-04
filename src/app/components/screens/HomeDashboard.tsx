@@ -165,13 +165,13 @@ export default function HomeDashboard() {
               </p>
               <button
                 onClick={handleLogout}
-                className="w-full bg-[#CC2936]/90 hover:bg-[#CC2936] text-white font-bold text-sm py-3 rounded-2xl mb-3 transition-colors"
+                className="cursor-pointer w-full bg-[#CC2936]/90 hover:bg-[#CC2936] text-white font-bold text-sm py-3 rounded-2xl mb-3 transition-colors"
               >
                 Yes, sign out
               </button>
               <button
                 onClick={() => setShowLogoutModal(false)}
-                className="w-full bg-white/5 hover:bg-white/10 text-white/60 font-semibold text-sm py-3 rounded-2xl transition-colors"
+                className="cursor-pointer w-full bg-white/5 hover:bg-white/10 text-white/60 font-semibold text-sm py-3 rounded-2xl transition-colors"
               >
                 Cancel
               </button>
@@ -223,7 +223,7 @@ export default function HomeDashboard() {
               </div>
               <button
                 onClick={() => setShowCouponModal(false)}
-                className="w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+                className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
               >
                 Got it
               </button>
@@ -296,13 +296,16 @@ export default function HomeDashboard() {
                     key={index}
                     onClick={() => setShowCouponModal(true)}
                     style={tileStyle}
-                    className=" py-2
+                    className="cursor-pointer py-2
                       col-span-2
                       bg-gradient-to-r from-[#1E3A8A]/60 to-[#1E90FF]/20
                       border border-[#1E90FF]/40 rounded-2xl
                       flex items-center gap-4 px-4
                       sm:min-h-[90px]
-                      active:scale-[0.97] transition-transform
+                      transition-all duration-150
+                      hover:border-[#1E90FF]/80 hover:from-[#1E3A8A]/80 hover:to-[#1E90FF]/35
+                      hover:shadow-[0_0_24px_rgba(30,144,255,0.35)]
+                      active:scale-[0.97]
                     "
                   >
                     <PlayCircle
@@ -329,9 +332,12 @@ export default function HomeDashboard() {
                   onClick={() => navigate(action.route)}
                   style={tileStyle}
                   className="
+                    cursor-pointer
                     bg-[#0D1526] border border-white/[0.07] rounded-2xl
-                    active:scale-[0.97] transition-transform
-                    hover:bg-white/[0.04]
+                    transition-all duration-150
+                    hover:bg-[#141D33] hover:border-white/20
+                    hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]
+                    active:scale-[0.97]
 
                     /* MOBILE: icon top-left, text below — full width, no truncation */
                     flex items-center gap-1.5 px-3 py-3

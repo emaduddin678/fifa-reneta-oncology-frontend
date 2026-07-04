@@ -333,7 +333,7 @@ export default function FixtureScreen() {
                         onClick={() => isEffectivelyDone && openDetail(f)}
                         className={`rounded-2xl border flex items-center px-3 py-3 gap-3 transition-all duration-150 ${
                           isEffectivelyDone
-                            ? "bg-white/[0.06] border-white/10 cursor-pointer hover:bg-white/[0.09] hover:border-white/15 active:scale-[0.985]"
+                            ? "bg-[#0D1526] border-[#34D399]/20 cursor-pointer hover:bg-[#141D33] hover:border-[#34D399]/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] active:scale-[0.985]"
                             : isLive && isHalfTime
                               ? "bg-[#FFD700]/[0.07] border-[#FFD700]/20"
                               : isLive
