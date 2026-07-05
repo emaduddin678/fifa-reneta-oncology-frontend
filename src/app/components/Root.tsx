@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import BgDesktop from "@/imports/Fifa_Worldcup_bg_Desktop.png";
 import BgMobile from "@/imports/Fifa_Worldcup_bg_mobile.png";
 import { clearAuth } from "@/app/lib/auth";
+import SupportFooter from "./SupportFooter";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ export default function Root() {
         />
         <Outlet />
       </div>
+      <SupportFooter />
     </div>
   );
 }
