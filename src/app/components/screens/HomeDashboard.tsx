@@ -155,7 +155,7 @@ export default function HomeDashboard() {
           <button
             onClick={goToCancerCare}
             title="Back to CancerCare"
-            className="cursor-pointer absolute top-4 left-4 flex items-center gap-1 text-[#1A1A2E]/60 text-xs font-semibold active:text-[#1A1A2E] transition-colors"
+            className="cursor-pointer absolute top-4 left-4 z-20 flex items-center gap-1.5 rounded-full bg-white/95 border border-black/10 shadow-md backdrop-blur-sm px-3 py-1.5 text-[#1A1A2E] text-xs font-semibold hover:bg-white active:scale-95 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
