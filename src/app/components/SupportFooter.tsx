@@ -24,6 +24,17 @@ export default function SupportFooter() {
           <p className="min-w-0 text-[11px] sm:text-xs font-semibold tracking-wide text-[#1A1A2E]/85 text-center leading-tight">
             Renata World Cup Football Campaign Support Team-01606-590270
           </p>
+
+          {/* developer credit */}
+          <a
+            href="https://xri.com.bd/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex shrink-0 items-center gap-1 text-[10px] sm:text-[11px] font-medium tracking-wide text-[#1A1A2E]/45 hover:text-[#CC0000] transition-colors"
+          >
+            <span className="text-[#1A1A2E]/30">|</span>
+            Developed by XRI
+          </a>
         </div>
       </div>
     </footer>
