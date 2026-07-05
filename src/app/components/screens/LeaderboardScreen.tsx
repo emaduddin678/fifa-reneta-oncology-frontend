@@ -5,19 +5,16 @@ import {
   ArrowLeft,
   Trophy,
   TrendingUp,
-  LogOut,
   Globe,
   CalendarDays,
   Award,
   Calendar,
 } from "lucide-react";
-import { toast } from "sonner";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 import {
   fetchLeaderboard,
   fetchDailyLeaderboard,
   fetchDailyWinners,
-  logoutDoctor,
   type LeaderboardEntry,
   type DailyWinnerEntry,
 } from "@/app/lib/auth";
@@ -326,10 +323,8 @@ export default function LeaderboardScreen() {
   const [winnersError, setWinnersError] = useState<string | null>(null);
   const [winnersFetched, setWinnersFetched] = useState(false);
 
-  async function handleLogout() {
-    await logoutDoctor();
-    toast.success("Logged out successfully.");
-    navigate("/login", { replace: true });
+  function goToCancerCare() {
+    window.location.href = "https://cancercare.pro";
   }
 
   // Load daily leaderboard on mount
@@ -424,11 +419,11 @@ export default function LeaderboardScreen() {
           />
         </div>
         <button
-          onClick={handleLogout}
-          title="Logout"
-          className="cursor-pointer w-11 h-11 flex items-center justify-center rounded-full bg-white border border-black/10 text-red-500 hover:bg-red-50 active:scale-95 transition-all shadow"
+          onClick={goToCancerCare}
+          title="Back to CancerCare"
+          className="cursor-pointer w-11 h-11 flex items-center justify-center rounded-full bg-white border border-black/10 text-[#1A1A2E] hover:bg-black/5 active:scale-95 transition-all shadow"
         >
-          <LogOut className="w-5 h-5" />
+          <ArrowLeft className="w-5 h-5" />
         </button>
       </div>
 

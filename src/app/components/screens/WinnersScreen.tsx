@@ -1,14 +1,9 @@
 import image_Asset_1_9 from "@/imports/Asset_1.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { ArrowLeft, Trophy, LogOut, Calendar } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeft, Trophy, Calendar } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
-import {
-  logoutDoctor,
-  fetchDailyWinners,
-  type DailyWinnerEntry,
-} from "@/app/lib/auth";
+import { fetchDailyWinners, type DailyWinnerEntry } from "@/app/lib/auth";
 
 /** Format "2026-06-13" → "June 13, 2026" */
 function formatDate(dateStr: string): string {
@@ -25,10 +20,8 @@ export default function WinnersScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleLogout() {
-    await logoutDoctor();
-    toast.success("Logged out successfully.");
-    navigate("/login", { replace: true });
+  function goToCancerCare() {
+    window.location.href = "https://cancercare.pro";
   }
 
   useEffect(() => {
@@ -61,11 +54,11 @@ export default function WinnersScreen() {
           />
         </div>
         <button
-          onClick={handleLogout}
-          title="Logout"
-          className="w-11 h-11 flex items-center justify-center rounded-full bg-white border border-black/10 text-red-500 hover:bg-red-50 active:scale-95 transition-all shadow"
+          onClick={goToCancerCare}
+          title="Back to CancerCare"
+          className="cursor-pointer w-11 h-11 flex items-center justify-center rounded-full bg-white border border-black/10 text-[#1A1A2E] hover:bg-black/5 active:scale-95 transition-all shadow"
         >
-          <LogOut className="w-5 h-5" />
+          <ArrowLeft className="w-5 h-5" />
         </button>
       </div>
 

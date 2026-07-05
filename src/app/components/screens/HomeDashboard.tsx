@@ -6,7 +6,7 @@ import {
   Flame,
   CalendarDays,
   Gamepad2,
-  LogOut,
+  ArrowLeft,
   BadgeHelp,
   TrendingUp,
   ChevronRight,
@@ -14,13 +14,10 @@ import {
   Gift,
   Trophy,
 } from "lucide-react";
-import { toast } from "sonner";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { logoutDoctor } from "@/app/lib/auth";
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showCouponModal, setShowCouponModal] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -29,10 +26,8 @@ export default function HomeDashboard() {
     return () => clearTimeout(t);
   }, []);
 
-  async function handleLogout() {
-    await logoutDoctor();
-    toast.success("Logged out successfully.");
-    navigate("/login", { replace: true });
+  function goToCancerCare() {
+    window.location.href = "https://cancercare.pro";
   }
 
   const quickActions = [
@@ -96,46 +91,6 @@ export default function HomeDashboard() {
         relative overflow-hidden
       "
       >
-        {/* Logout Confirmation Modal */}
-        {showLogoutModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6"
-            onClick={() => setShowLogoutModal(false)}
-          >
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-            <div
-              className="relative z-10 w-full max-w-[320px] bg-white/95 border border-black/15 rounded-3xl p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)]"
-              style={{
-                animation:
-                  "modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-4">
-                <LogOut className="w-7 h-7 text-red-500" />
-              </div>
-              <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
-                Sign out?
-              </h2>
-              <p className="text-[#1A1A2E]/50 text-sm text-center mb-6">
-                You'll need to sign back in to access the festival.
-              </p>
-              <button
-                onClick={handleLogout}
-                className="cursor-pointer w-full bg-red-500 hover:bg-red-600 text-white font-bold text-sm py-3 rounded-2xl mb-3 transition-colors"
-              >
-                Yes, sign out
-              </button>
-              <button
-                onClick={() => setShowLogoutModal(false)}
-                className="cursor-pointer w-full bg-gray-100 hover:bg-gray-200 text-[#1A1A2E]/70 font-semibold text-sm py-3 rounded-2xl transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Toffee Live Coupon Info Modal */}
         {showCouponModal && (
           <div
@@ -198,11 +153,12 @@ export default function HomeDashboard() {
           }}
         >
           <button
-            onClick={() => setShowLogoutModal(true)}
-            className="cursor-pointer absolute top-4 right-4 flex items-center gap-1 text-[#1A1A2E]/40 text-xs underline active:text-[#1A1A2E]/70 transition-colors"
+            onClick={goToCancerCare}
+            title="Back to CancerCare"
+            className="cursor-pointer absolute top-4 left-4 flex items-center gap-1 text-[#1A1A2E]/60 text-xs font-semibold active:text-[#1A1A2E] transition-colors"
           >
-            <LogOut className="w-3 h-3" />
-            Sign out
+            <ArrowLeft className="w-4 h-4" />
+            Back
           </button>
 
           {/* Logo: 120px on mobile, 160px on desktop */}
