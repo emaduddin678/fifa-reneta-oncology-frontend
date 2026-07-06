@@ -216,9 +216,9 @@ export default function HomeDashboard() {
                     <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
                       You need to finish in the{" "}
                       <span className="font-bold text-[#1A1A2E]/70">
-                        top 10 of yesterday's leaderboard
+                        top 50 on any match day
                       </span>{" "}
-                      to win a Toffee Live coupon.
+                      to win a Toffee Live coupon. Keep playing!
                     </p>
                     <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5 space-y-2">
                       <div className="flex items-start gap-2">
