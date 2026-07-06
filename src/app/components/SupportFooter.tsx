@@ -22,7 +22,7 @@ export default function SupportFooter() {
           </span>
 
           <p className="min-w-0 text-[11px] sm:text-xs font-semibold tracking-wide text-[#1A1A2E]/85 text-center leading-tight">
-            Renata World Cup Football Campaign Support Team-01606-590270
+            Renata World Cup Football Campaign <br /> Support Team-01606-590270
           </p>
 
           {/* developer credit */}
