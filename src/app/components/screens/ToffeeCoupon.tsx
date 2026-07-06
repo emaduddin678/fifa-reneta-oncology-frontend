@@ -15,12 +15,15 @@ export default function LiveStreamScreen() {
   // Fetch (or assign) coupon on mount
   useEffect(() => {
     getLiveCoupon()
-      .then((code) => {
-        setCouponCode(code);
-        // Auto-copy once we have the code
-        navigator.clipboard.writeText(code).then(() => {
-          toast.success("Coupon code copied!");
-        });
+      .then((result) => {
+        if (result.status === 'success' && result.coupon_code) {
+          setCouponCode(result.coupon_code);
+          navigator.clipboard.writeText(result.coupon_code).then(() => {
+            toast.success("Coupon code copied!");
+          });
+        } else {
+          setCouponError(result.message ?? "You are not eligible for a coupon.");
+        }
       })
       .catch((err: Error) => {
         setCouponError(err.message ?? "Could not load coupon code.");

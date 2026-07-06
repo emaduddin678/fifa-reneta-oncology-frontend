@@ -357,7 +357,13 @@ export async function fetchDailyLeaderboard(): Promise<LeaderboardResponse> {
   return data as LeaderboardResponse;
 }
 
-export async function getLiveCoupon(): Promise<string> {
+export interface CouponResult {
+  status: 'success' | 'not_eligible' | 'no_coupons';
+  coupon_code?: string;
+  message?: string;
+}
+
+export async function getLiveCoupon(): Promise<CouponResult> {
   const token = getToken();
 
   const res = await apiFetch(`${API_BASE}/coupon/live`, {
@@ -369,11 +375,19 @@ export async function getLiveCoupon(): Promise<string> {
 
   const data = await res.json();
 
+  if (res.status === 403) {
+    return { status: 'not_eligible', message: data.message };
+  }
+
+  if (res.status === 404) {
+    return { status: 'no_coupons', message: data.message };
+  }
+
   if (!res.ok) {
     throw new Error(data.message ?? "Failed to fetch coupon code");
   }
 
-  return data.coupon_code as string;
+  return { status: 'success', coupon_code: data.coupon_code as string };
 }
 
 export interface DailyWinnerEntry {

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Crosshair,
-  Flame,
   CalendarDays,
   Gamepad2,
   ArrowLeft,
@@ -13,12 +12,23 @@ import {
   PlayCircle,
   Gift,
   Trophy,
+  Copy,
+  Check,
+  Loader2,
 } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
+import { getLiveCoupon } from "@/app/lib/auth";
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
-  const [showCouponModal, setShowCouponModal] = useState(false);
+  const [couponModal, setCouponModal] = useState<{
+    open: boolean;
+    loading: boolean;
+    status: "idle" | "success" | "not_eligible" | "no_coupons" | "error";
+    coupon_code?: string;
+    message?: string;
+  }>({ open: false, loading: false, status: "idle" });
+  const [copied, setCopied] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -28,6 +38,36 @@ export default function HomeDashboard() {
 
   function goToCancerCare() {
     window.location.href = "https://cancercare.pro";
+  }
+
+  async function handleCouponClick() {
+    setCouponModal({ open: true, loading: true, status: "idle" });
+    setCopied(false);
+    try {
+      const result = await getLiveCoupon();
+      setCouponModal({
+        open: true,
+        loading: false,
+        status: result.status,
+        coupon_code: result.coupon_code,
+        message: result.message,
+      });
+    } catch {
+      setCouponModal({
+        open: true,
+        loading: false,
+        status: "error",
+        message: "Something went wrong. Please try again.",
+      });
+    }
+  }
+
+  function handleCopy() {
+    if (!couponModal.coupon_code) return;
+    navigator.clipboard.writeText(couponModal.coupon_code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   }
 
   const quickActions = [
@@ -91,11 +131,14 @@ export default function HomeDashboard() {
         relative overflow-hidden
       "
       >
-        {/* Toffee Live Coupon Info Modal */}
-        {showCouponModal && (
+        {/* Toffee Live Coupon Modal */}
+        {couponModal.open && (
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center p-6"
-            onClick={() => setShowCouponModal(false)}
+            onClick={() =>
+              !couponModal.loading &&
+              setCouponModal((s) => ({ ...s, open: false }))
+            }
           >
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
             <div
@@ -106,39 +149,144 @@ export default function HomeDashboard() {
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-14 h-14 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/20 flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-7 h-7 text-[#1E90FF]" />
-              </div>
-              <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
-                Win a Free Toffee Live Coupon
-              </h2>
-              <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
-                Every match day, the top 100 players on the leaderboard receive
-                a free Toffee Live coupon code to stream the FIFA World Cup
-                live.
-              </p>
-              <div className="bg-gray-50 border border-black/10 rounded-2xl p-4 mb-5 space-y-3">
-                <div className="flex items-start gap-3">
-                  <Trophy className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-[#1A1A2E]/70 text-xs">
-                    Rankings are based on your combined Trivia Quiz and Mini
-                    Game scores.
-                  </span>
+              {/* Loading */}
+              {couponModal.loading && (
+                <div className="flex flex-col items-center py-6">
+                  <Loader2 className="w-10 h-10 text-[#1E90FF] animate-spin mb-3" />
+                  <p className="text-[#1A1A2E]/60 text-sm font-medium">
+                    Checking your eligibility…
+                  </p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Gift className="w-4 h-4 text-[#1E90FF] flex-shrink-0 mt-0.5" />
-                  <span className="text-[#1A1A2E]/70 text-xs">
-                    Top 100 finishers get notified here with their coupon code,
-                    free to redeem on Toffee Live.
-                  </span>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowCouponModal(false)}
-                className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
-              >
-                Got it
-              </button>
+              )}
+
+              {/* Success — coupon awarded */}
+              {!couponModal.loading && couponModal.status === "success" && (
+                <>
+                  <div className="w-14 h-14 rounded-2xl bg-green-100 border border-green-300 flex items-center justify-center mx-auto mb-4">
+                    <Trophy className="w-7 h-7 text-green-600" />
+                  </div>
+                  <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
+                    🎉 Congratulations!
+                  </h2>
+                  <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
+                    You were in the top 10! Here's your free Toffee Live coupon
+                    to watch the FIFA World Cup live.
+                  </p>
+                  {/* Coupon code box */}
+                  <div className="flex items-center gap-2 bg-[#1E90FF]/10 border-2 border-[#1E90FF] rounded-2xl px-4 py-3 mb-2">
+                    <span className="flex-1 font-mono font-bold text-[#1A1A2E] text-base tracking-widest text-center select-all">
+                      {couponModal.coupon_code}
+                    </span>
+                    <button
+                      onClick={handleCopy}
+                      title="Copy code"
+                      className="cursor-pointer flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-xl bg-[#1E90FF]/20 hover:bg-[#1E90FF]/30 transition-colors"
+                    >
+                      {copied ? (
+                        <Check className="w-4 h-4 text-green-500" />
+                      ) : (
+                        <Copy className="w-4 h-4 text-[#1E90FF]" />
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-[#1A1A2E]/40 text-[11px] text-center mb-5">
+                    Tap the copy icon, then redeem on Toffee Live.
+                  </p>
+                  <button
+                    onClick={() =>
+                      setCouponModal((s) => ({ ...s, open: false }))
+                    }
+                    className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+                  >
+                    Done
+                  </button>
+                </>
+              )}
+
+              {/* Not eligible */}
+              {!couponModal.loading &&
+                couponModal.status === "not_eligible" && (
+                  <>
+                    <div className="w-14 h-14 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center mx-auto mb-4">
+                      <Trophy className="w-7 h-7 text-gray-400" />
+                    </div>
+                    <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
+                      Not Eligible Yet
+                    </h2>
+                    <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
+                      You need to finish in the{" "}
+                      <span className="font-bold text-[#1A1A2E]/70">
+                        top 10 of yesterday's leaderboard
+                      </span>{" "}
+                      to win a Toffee Live coupon.
+                    </p>
+                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5 space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Gift className="w-4 h-4 text-[#1E90FF] flex-shrink-0 mt-0.5" />
+                        <span className="text-[#1A1A2E]/70 text-xs">
+                          Play the Trivia Quiz and Mini Game every day to climb
+                          the leaderboard and earn your coupon!
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() =>
+                        setCouponModal((s) => ({ ...s, open: false }))
+                      }
+                      className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+                    >
+                      Got it
+                    </button>
+                  </>
+                )}
+
+              {/* No coupons left */}
+              {!couponModal.loading &&
+                couponModal.status === "no_coupons" && (
+                  <>
+                    <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-4">
+                      <Gift className="w-7 h-7 text-amber-500" />
+                    </div>
+                    <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
+                      All Coupons Claimed
+                    </h2>
+                    <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
+                      All coupon codes have been claimed. Please contact support
+                      if you believe this is an error.
+                    </p>
+                    <button
+                      onClick={() =>
+                        setCouponModal((s) => ({ ...s, open: false }))
+                      }
+                      className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+                    >
+                      Close
+                    </button>
+                  </>
+                )}
+
+              {/* Error */}
+              {!couponModal.loading && couponModal.status === "error" && (
+                <>
+                  <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center mx-auto mb-4">
+                    <Gift className="w-7 h-7 text-red-400" />
+                  </div>
+                  <h2 className="text-[#1A1A2E] font-bold text-lg text-center mb-1">
+                    Something Went Wrong
+                  </h2>
+                  <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
+                    {couponModal.message ?? "Please try again later."}
+                  </p>
+                  <button
+                    onClick={() =>
+                      setCouponModal((s) => ({ ...s, open: false }))
+                    }
+                    className="cursor-pointer w-full bg-[#1E90FF] hover:bg-[#0066CC] text-white font-bold text-sm py-3 rounded-2xl transition-colors"
+                  >
+                    Close
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -207,7 +355,7 @@ export default function HomeDashboard() {
                 return (
                   <button
                     key={index}
-                    onClick={() => setShowCouponModal(true)}
+                    onClick={handleCouponClick}
                     style={tileStyle}
                     className="cursor-pointer py-2
                       col-span-2
@@ -230,7 +378,7 @@ export default function HomeDashboard() {
                         Win a Free Toffee Live Coupon
                       </div>
                       <div className="text-xs text-[#1A1A2E]/50">
-                        Top 100 players get rewarded
+                        Top 10 players get rewarded
                       </div>
                     </div>
                     <Gift className="w-6 h-6 text-[#1E90FF] flex-shrink-0" />
