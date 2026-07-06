@@ -375,7 +375,7 @@ export default function HomeDashboard() {
                     />
                     <div className="flex-1 text-left">
                       <div className="text-sm sm:text-base font-black text-[#1A1A2E] tracking-wide leading-tight uppercase">
-                        Win a Free Toffee Live Coupon
+                        Win a Free Toffee Live Coupon, Click Here to check your eligibility
                       </div>
                       <div className="text-xs text-[#1A1A2E]/50">
                         Top 10 players get rewarded
