@@ -169,7 +169,7 @@ export default function HomeDashboard() {
                     🎉 Congratulations!
                   </h2>
                   <p className="text-[#1A1A2E]/50 text-sm text-center mb-5">
-                    You were in the top 10! Here's your free Toffee Live coupon
+                    You reached the top 50! Here's your free Toffee Live coupon
                     to watch the FIFA World Cup live.
                   </p>
                   {/* Coupon code box */}
@@ -378,7 +378,7 @@ export default function HomeDashboard() {
                         Win a Free Toffee Live Coupon, Click Here to check your eligibility
                       </div>
                       <div className="text-xs text-[#1A1A2E]/50">
-                        Top 10 players get rewarded
+                        Top 50 players get rewarded
                       </div>
                     </div>
                     <Gift className="w-6 h-6 text-[#1E90FF] flex-shrink-0" />
