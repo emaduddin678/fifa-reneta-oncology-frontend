@@ -55,6 +55,12 @@ function formatDate(dateStr: string): string {
   });
 }
 
+function getYesterdayDateStr(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toLocaleDateString("en-CA");
+}
+
 // ---------------------------------------------------------------------------
 // Shared Leaderboard Board UI (used by both Daily and Global tabs)
 // ---------------------------------------------------------------------------
@@ -363,10 +369,14 @@ export default function LeaderboardScreen() {
     if (activeTab !== "winners" || winnersFetched) return;
     setWinnersLoading(true);
     setWinnersError(null);
-    const today = new Date().toLocaleDateString("en-CA");
+    const yesterday = getYesterdayDateStr();
     fetchDailyWinners()
       .then((data) => {
-        setWinners(data.filter((w) => w.rank === 1 && w.date < today));
+        setWinners(
+          data
+            .filter((w) => w.date === yesterday && w.rank >= 1 && w.rank <= 50)
+            .sort((a, b) => a.rank - b.rank),
+        );
         setWinnersFetched(true);
       })
       .catch((err: Error) =>
@@ -495,12 +505,12 @@ export default function LeaderboardScreen() {
           )}
           {!winnersLoading && winners.length === 0 && !winnersError && (
             <div className="text-center py-12 text-[#1A1A2E]/50 text-sm">
-              No daily winners yet. Check back tomorrow!
+              Yesterday's top 50 is not available yet. Check back later!
             </div>
           )}
           {winners.map((winner, index) => (
             <div
-              key={winner.date}
+              key={`${winner.date}-${winner.rank}-${winner.doctor_user_id}`}
               className={`relative bg-white/95 border rounded-2xl p-4 sm:p-5 flex items-center gap-4 ${
                 index === 0
                   ? "border-yellow-400 ring-2 ring-yellow-300/60"
